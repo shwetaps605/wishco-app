@@ -1,3 +1,4 @@
+import Link from "next/link";
 
 const links = [
     { href:'/chat', label:'Chat'},
@@ -13,7 +14,9 @@ const NavLinks = () => {
             {links.map(link => {
                 return (
                     <li key={link.href} className="capitalize">
-                        {link.label}
+                        <Link href={link.href}>
+                            {link.label}
+                        </Link>
                     </li>
                 )
             })}
