@@ -4,6 +4,7 @@ const links = [
     { href:'/chat', label:'Chat'},
     { href:'/tours', label:'Tours'},
     { href:'/tours/new-tour', label:'New Tour'},
+    { href:'/jobify', label:'Jobify'},
     { href:'/profile', label:'Profile'},
 ]
 

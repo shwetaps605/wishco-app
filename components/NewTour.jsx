@@ -20,7 +20,7 @@ const NewTour = () => {
                 return newTour
             }
             console.log('tour response-->', newTour)
-            toast.success('No matching city found...')
+            toast.error('No matching city found...')
             return null
         },
         onSuccess: () => {
