@@ -1,4 +1,5 @@
 'use server'
+import prisma from "./db"
 
 export const generateChatResponse = async (chatMessage) => {
     await new Promise((resolve,reject) => setTimeout(resolve,1200))
@@ -23,4 +24,22 @@ export const getAllTours = async searchTerm => {
     if(!searchTerm) {
     }
 
+}
+
+export const addNewJob = async (prevState,formData) => {
+    const job = Object.fromEntries(formData.entries())
+    try {
+        await prisma.jobApplication.create({
+            data: {
+                jobTitle: job.jobTitle,
+                companyName: job.company,
+                location: job.location,
+                status: job.status,
+                jobUrl: job.jobUrl
+            }
+        });
+        return { message: 'success'}
+    } catch (error) {
+        return { message: 'error'}
+    }
 }

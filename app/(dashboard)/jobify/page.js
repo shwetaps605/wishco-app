@@ -1,8 +1,11 @@
 import React from 'react'
+import AddJobForm from '../../../components/AddJobForm'
 
 const JobifyPage = () => {
   return (
-    <div>JobifyPage</div>
+    <>
+      <AddJobForm />
+    </>
   )
 }
 
