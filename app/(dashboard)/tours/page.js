@@ -1,7 +1,7 @@
 const ToursPage = () => {
     return(
         <section>
-            Tours Page
+            Your Job Applications
         </section>
     )
 }
