@@ -1,11 +1,14 @@
 import React from 'react'
-import AddJobForm from '../../../components/AddJobForm'
+import { dehydrate, HydrationBoundary, QueryClient} from '@tanstack/react-query'
+import JobsComponent from '../../../components/JobsComponent'
 
 const JobifyPage = () => {
+  const queryClient = new QueryClient()
   return(
-    <div>
-      Your Job Applications
-    </div>
+    <HydrationBoundary state={dehydrate(queryClient)}>
+      <JobsComponent/>
+    </HydrationBoundary>
+   
   )
  
 }
