@@ -26,6 +26,12 @@ export const getAllTours = async searchTerm => {
 
 }
 
+export const getAllJobs = async () => {
+    return await prisma.jobApplication.findMany({orderBy: {
+        createdAt: 'desc'
+    }});
+}
+
 export const addNewJob = async (prevState,formData) => {
     const job = Object.fromEntries(formData.entries())
     try {
