@@ -3,6 +3,7 @@ import React, { useEffect } from 'react'
 import { addNewJob } from '../utils/actions'
 import toast from 'react-hot-toast'
 import { useFormStatus, useFormState } from 'react-dom'
+import { useMutation } from '@tanstack/react-query'
 
 
 const initialState = {
@@ -13,29 +14,34 @@ const AddJobForm = () => {
 
   const { pending } = useFormStatus();
 
-  const [actionResponseState, formAction ] = useFormState(addNewJob, initialState)
-  console.log('formState-->', actionResponseState)  
-
-  useEffect(()=>{
-    if(actionResponseState.message === 'success') {
-      toast.success(actionResponseState.message)
-    } else {
-      toast.error('Job could not be added')
+  const { mutate, isPending } = useMutation({
+    mutationFn: (formData) => addNewJob(formData),
+    onSuccess: (response) => {
+      console.log("on success->",response);
     }
-  },[actionResponseState])
+  })
+
+  // const [actionResponseState, formAction ] = useFormState(addNewJob, initialState)
+  // console.log('formState-->', actionResponseState)  
+
+  // useEffect(()=>{
+  //   if(actionResponseState.message === 'success') {
+  //     toast.success(actionResponseState.message)
+  //   } else {
+  //     toast.error('Job could not be added')
+  //   }
+  // },[actionResponseState])
   
 
 
-  // const handleSubmit = e => {
-  //   e.preventDefault();
-  //   console.log('form submitted');
-  //   console.log(e)
-  //   const formData = new FormData(e.currentTarget);
-  //   console.log(Object.fromEntries(formData.entries()));
-  // }
+  const handleSubmit = e => {
+    e.preventDefault();
+    const formData = new FormData(e.currentTarget);
+    mutate(formData);
+  }
 
   return (
-    <form className='max-w-2xl' action={formAction}>
+    <form className='max-w-2xl' onSubmit={handleSubmit}>
         <h2 className='text-2xl text-blue-500'>
             Add a new job
         </h2>
@@ -83,8 +89,8 @@ const AddJobForm = () => {
             {/* <input type='text' name='jobTitle' className='join-item input input-bordered '/> */}
         </div>
 
-        <button className='btn btn-secondary mt-10' type='submit'>
-          {pending ? 'Adding job...' : 'Add job'}
+        <button className='btn btn-secondary mt-10' type='submit' disabled={isPending}>
+          {isPending ? 'Adding job...' : 'Add job'}
         </button>
 
     </form>
