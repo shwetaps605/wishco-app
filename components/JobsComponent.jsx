@@ -36,11 +36,12 @@ const JobsComponent = () => {
   const queryClient = useQueryClient();
 
   const getBadgeColor = (jobStatus) => {
-    if(jobStatus === 'Applied')
+    console.log(jobStatus)
+    if(jobStatus === 'applied')
       return 'badge-info'
-    if(jobStatus === 'Interview')
+    if(jobStatus === 'interview')
       return 'badge-warning'
-    if(jobStatus === 'Declined')
+    if(jobStatus === 'rejected')
       return 'badge-error'
     return 'badge-success'
   }
@@ -61,7 +62,7 @@ const JobsComponent = () => {
   return (
     <>
     <h1 className='text-2xl'>{isFetching ? 'Fetching...' : 'My Jobs'}</h1>
-    <p>{fetchStatus}</p>
+    {/* <p>{fetchStatus}</p> */}
     <div className='grid lg:grid-cols-3 sm:grid-cols-1 gap-5 mt-5'>
       {data.map(job => 
       <div key={job.id} className='card w-100 bg-base-300 shadow-md card-bordered'>

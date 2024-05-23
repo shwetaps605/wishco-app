@@ -12,12 +12,17 @@ const initialState = {
 
 const AddJobForm = () => {
 
-  const { pending } = useFormStatus();
+  // { pending } = useFormStatus();
 
   const { mutate, isPending } = useMutation({
     mutationFn: (formData) => addNewJob(formData),
     onSuccess: (response) => {
       console.log("on success->",response);
+      if(response.message === 'success') {
+            toast.success(response.message)
+          } else {
+            toast.error('Job could not be added')
+          }
     }
   })
 
@@ -80,10 +85,10 @@ const AddJobForm = () => {
             
             <select name="status" id="status" className='join-item select input-bordered w-full' defaultValue={'DEFAULT'}>
               <option disabled value='DEFAULT'>Choose here 👇</option>
-              <option value="applied">Applied</option>
-              <option value="interview">Interview</option>
-              <option value="offer">Offer</option>
-              <option value="rejected">Rejected</option>
+              <option value="Applied">Applied</option>
+              <option value="Interview">Interview</option>
+              <option value="Offer">Offer</option>
+              <option value="Rejected">Rejected</option>
             </select>
 
             {/* <input type='text' name='jobTitle' className='join-item input input-bordered '/> */}
