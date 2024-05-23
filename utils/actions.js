@@ -49,3 +49,18 @@ export const addNewJob = async (prevState,formData) => {
         return { message: 'error'}
     }
 }
+
+export const deleteJob = async id => {
+    //await new Promise((resolve,reject) => setTimeout(resolve,1200))
+    try {
+        await prisma.jobApplication.delete({
+            where: {
+                id: id
+            }
+        });
+        return { message: 'success'}
+    } catch(err) {
+        return { message: 'error' }
+
+    }
+}
