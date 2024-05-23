@@ -3,6 +3,7 @@ import React, { useEffect } from 'react'
 import { addNewJob } from '../utils/actions'
 import toast from 'react-hot-toast'
 import { useFormStatus, useFormState } from 'react-dom'
+import { useMutation } from '@tanstack/react-query'
 
 
 const initialState = {
@@ -11,31 +12,41 @@ const initialState = {
 
 const AddJobForm = () => {
 
-  const { pending } = useFormStatus();
+  // { pending } = useFormStatus();
 
-  const [actionResponseState, formAction ] = useFormState(addNewJob, initialState)
-  console.log('formState-->', actionResponseState)  
-
-  useEffect(()=>{
-    if(actionResponseState.message === 'success') {
-      toast.success(actionResponseState.message)
-    } else {
-      toast.error('Job could not be added')
+  const { mutate, isPending } = useMutation({
+    mutationFn: (formData) => addNewJob(formData),
+    onSuccess: (response) => {
+      console.log("on success->",response);
+      if(response.message === 'success') {
+            toast.success(response.message)
+          } else {
+            toast.error('Job could not be added')
+          }
     }
-  },[actionResponseState])
+  })
+
+  // const [actionResponseState, formAction ] = useFormState(addNewJob, initialState)
+  // console.log('formState-->', actionResponseState)  
+
+  // useEffect(()=>{
+  //   if(actionResponseState.message === 'success') {
+  //     toast.success(actionResponseState.message)
+  //   } else {
+  //     toast.error('Job could not be added')
+  //   }
+  // },[actionResponseState])
   
 
 
-  // const handleSubmit = e => {
-  //   e.preventDefault();
-  //   console.log('form submitted');
-  //   console.log(e)
-  //   const formData = new FormData(e.currentTarget);
-  //   console.log(Object.fromEntries(formData.entries()));
-  // }
+  const handleSubmit = e => {
+    e.preventDefault();
+    const formData = new FormData(e.currentTarget);
+    mutate(formData);
+  }
 
   return (
-    <form className='max-w-2xl' action={formAction}>
+    <form className='max-w-2xl' onSubmit={handleSubmit}>
         <h2 className='text-2xl text-blue-500'>
             Add a new job
         </h2>
@@ -74,17 +85,17 @@ const AddJobForm = () => {
             
             <select name="status" id="status" className='join-item select input-bordered w-full' defaultValue={'DEFAULT'}>
               <option disabled value='DEFAULT'>Choose here 👇</option>
-              <option value="applied">Applied</option>
-              <option value="interview">Interview</option>
-              <option value="offer">Offer</option>
-              <option value="rejected">Rejected</option>
+              <option value="Applied">Applied</option>
+              <option value="Interview">Interview</option>
+              <option value="Offer">Offer</option>
+              <option value="Rejected">Rejected</option>
             </select>
 
             {/* <input type='text' name='jobTitle' className='join-item input input-bordered '/> */}
         </div>
 
-        <button className='btn btn-secondary mt-10' type='submit'>
-          {pending ? 'Adding job...' : 'Add job'}
+        <button className='btn btn-secondary mt-10' type='submit' disabled={isPending}>
+          {isPending ? 'Adding job...' : 'Add job'}
         </button>
 
     </form>

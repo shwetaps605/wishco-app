@@ -32,7 +32,25 @@ export const getAllJobs = async () => {
     }});
 }
 
-export const addNewJob = async (prevState,formData) => {
+// export const addNewJob = async (prevState,formData) => {
+//     const job = Object.fromEntries(formData.entries())
+//     try {
+//         await prisma.jobApplication.create({
+//             data: {
+//                 jobTitle: job.jobTitle,
+//                 companyName: job.company,
+//                 location: job.location,
+//                 status: job.status,
+//                 jobUrl: job.jobUrl
+//             }
+//         });
+//         return { message: 'success'}
+//     } catch (error) {
+//         return { message: 'error'}
+//     }
+// }
+
+export const addNewJob = async (formData) => {
     const job = Object.fromEntries(formData.entries())
     try {
         await prisma.jobApplication.create({
@@ -47,5 +65,20 @@ export const addNewJob = async (prevState,formData) => {
         return { message: 'success'}
     } catch (error) {
         return { message: 'error'}
+    }
+}
+
+export const deleteJob = async id => {
+    //await new Promise((resolve,reject) => setTimeout(resolve,1200))
+    try {
+        await prisma.jobApplication.delete({
+            where: {
+                id: id
+            }
+        });
+        return { message: 'success'}
+    } catch(err) {
+        return { message: 'error' }
+
     }
 }

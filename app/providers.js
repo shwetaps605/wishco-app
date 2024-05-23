@@ -12,7 +12,7 @@ const Providers = ({children}) => {
                 {
                     defaultOptions: {
                         queries: {
-                            staleTime: 60 * 1000
+                            staleTime: 30 * 1000
                         }
                 }
             }
@@ -21,7 +21,7 @@ const Providers = ({children}) => {
    
     return(
         <QueryClientProvider client={queryClient}>
-            <Toaster position="top-center"/>
+            <Toaster/>
             {children}
             <ReactQueryDevtools initialIsOpen={true}/>
         </QueryClientProvider>
