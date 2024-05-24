@@ -1,11 +1,12 @@
 'use client'
 import React from 'react'
 import { useQuery, useQueryClient, useMutation } from '@tanstack/react-query';
-import { deleteJob, getAllJobs } from '../utils/actions'
+import { deleteJob, getAllJobs , redirectToEditPage} from '../utils/actions'
 import { FaRegEdit } from "react-icons/fa";
 import { RiDeleteBin6Line } from "react-icons/ri";
 import { GrLocation } from "react-icons/gr";
 import toast from 'react-hot-toast';
+import { redirect } from 'next/navigation';
 
 const JobsComponent = () => {
   const { isPending, isError, data, isFetching,fetchStatus} = useQuery({
@@ -17,7 +18,6 @@ const JobsComponent = () => {
     mutationFn: async id => {
       const reponse = await deleteJob(id);
       if(reponse.message === 'success') {
-        console.log("IT WAS A SUCCESS");
         queryClient.invalidateQueries({ queryKey:['jobs']})
         toast.success('Job removed!')
       } else {
@@ -50,9 +50,12 @@ const JobsComponent = () => {
     if(jobId != null) {
       deleteJobQuery.mutate(jobId);
       queryClient.invalidateQueries({ queryKey:['jobs'] });
-
-      
     }
+  }
+
+  const handleEditOption = id => {
+    if(id != null ) 
+    redirectToEditPage(id);
   }
 
   if(isPending) return <div>
@@ -79,7 +82,7 @@ const JobsComponent = () => {
             <div className={`badge ${getBadgeColor(job.status)} badge-outline badge-lg`}>{job.status}</div>
           </div>
           <div class="card-actions mt-3">
-            <button class="btn btn-accent btn-sm ">
+            <button class="btn btn-accent btn-sm" onClick={()=> handleEditOption(job.id)}>
               <span>Edit</span>
               <FaRegEdit/>
             </button>
