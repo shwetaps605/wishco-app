@@ -1,4 +1,5 @@
 'use server'
+import { redirect } from "next/navigation"
 import prisma from "./db"
 
 export const generateChatResponse = async (chatMessage) => {
@@ -81,4 +82,8 @@ export const deleteJob = async id => {
         return { message: 'error' }
 
     }
+}
+
+export const redirectToEditPage = id => {
+    redirect(`/jobify/${id}`)
 }
