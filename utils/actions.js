@@ -84,6 +84,19 @@ export const deleteJob = async id => {
     }
 }
 
-export const redirectToEditPage = id => {
+export const fetchJobDetails = async id => {
+    try {
+        const jobResponse = await prisma.jobApplication.findUnique({
+            where: {
+                id: id
+            }
+        });
+        return jobResponse;
+    } catch(err) {
+        return null;
+    }
+}
+
+export const redirectToJobPage = id => {
     redirect(`/jobify/${id}`)
 }
