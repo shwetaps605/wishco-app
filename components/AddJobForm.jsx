@@ -1,9 +1,10 @@
 'use client'
 import React, { useEffect } from 'react'
-import { addNewJob } from '../utils/actions'
+import { addNewJob,redirectToJobsPage } from '../utils/actions'
 import toast from 'react-hot-toast'
 import { useFormStatus, useFormState } from 'react-dom'
 import { useMutation } from '@tanstack/react-query'
+import { redirect } from 'next/navigation'
 
 
 const initialState = {
@@ -19,7 +20,9 @@ const AddJobForm = () => {
     onSuccess: (response) => {
       console.log("on success->",response);
       if(response.message === 'success') {
-            toast.success(response.message)
+            toast.success(response.message);
+            console.log("TOAST MESSAGE:", response.message)
+            redirectToJobsPage();
           } else {
             toast.error('Job could not be added')
           }

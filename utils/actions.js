@@ -59,7 +59,7 @@ export const addNewJob = async (formData) => {
                 jobTitle: job.jobTitle,
                 companyName: job.company,
                 location: job.location,
-                status: job.status,
+                status: job.status.charAt(0).toUpperCase()+job.status.slice(1),
                 jobUrl: job.jobUrl
             }
         });
@@ -99,4 +99,8 @@ export const fetchJobDetails = async id => {
 
 export const redirectToJobPage = id => {
     redirect(`/jobify/${id}`)
+}
+
+export const redirectToJobsPage = id => {
+    redirect(`/jobify`)
 }
