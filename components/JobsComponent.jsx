@@ -36,11 +36,11 @@ const JobsComponent = () => {
 
   const getBadgeColor = (jobStatus) => {
     console.log(jobStatus)
-    if(jobStatus === 'applied')
+    if(jobStatus === 'Applied')
       return 'badge-info'
-    if(jobStatus === 'interview')
+    if(jobStatus === 'Interview')
       return 'badge-warning'
-    if(jobStatus === 'rejected')
+    if(jobStatus === 'Rejected')
       return 'badge-error'
     return 'badge-success'
   }
@@ -63,8 +63,7 @@ const JobsComponent = () => {
 
   return (
     <>
-    <h1 className='text-2xl'>{isFetching ? 'Fetching...' : 'My Jobs'}</h1>
-    {/* <p>{fetchStatus}</p> */}
+    <h1 className='text-2xl'>My Jobs</h1>
     <div className='grid lg:grid-cols-3 sm:grid-cols-1 gap-5 mt-5'>
       {data.map(job => 
       <div key={job.id} className='card w-100 bg-base-300 shadow-md card-bordered'>
