@@ -4,7 +4,6 @@ import EditJob from '../../../../components/EditJob'
 import { fetchJobDetails, redirectToJobsPage } from '../../../../utils/actions'
 import { useEffect, useState } from 'react'
 
-const statusOptions = ['Applied','Offer','Interview','Rejected']
 
 const JobPage = (props) => {
     const [status,setStatus] = useState("");
@@ -36,14 +35,9 @@ const JobPage = (props) => {
     </div>
 
 
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        const formData = new FormData(e.target);
-        console.log(formData)
-    }
+   
 
     const viewOption = obj => {
-        console.log("^^^^^",obj)
         
     }
 
@@ -64,21 +58,9 @@ const JobPage = (props) => {
 
                 {/* <p className='text-secondary'>Added at: {data.createdAt.getTime().toLocaleString()}</p> */}
 
-                <form className='max-w-2xl mt-5' onSubmit={handleSubmit}>
-                    <div className='join w-full'>
-                        <label htmlFor="status" className='bg-base-300 join-item flex justify-center align-middle text-center items-center pl-2'>
-                            <span className='text-sm mr-5'>Update status</span>
-                        </label>
-                        <select name="status" id="status" className="select select-accent input-bordered w-full join-item max-w-sm" onChange={(obj) => viewOption(obj)} >
-                            {statusOptions.map(option => <option key={option} defaultValue={data.status} value={option} selected={data.status === option} > 
-                                {option}
-                            </option>)}
-                        </select>
-                        <button type='submit' className="btn btn-accent join-item">Update</button>
-                    </div>
-                    
-                </form>
+                <EditJob data={data}/>
 
+                
 
                
                 

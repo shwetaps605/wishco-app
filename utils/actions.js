@@ -97,6 +97,24 @@ export const fetchJobDetails = async id => {
     }
 }
 
+export const updateJob = async (id,formData) => {
+    const jobStatus = Object.fromEntries(formData.entries()).status;
+    try {
+        await prisma.jobApplication.update({
+            where: {
+                id: id
+            },
+            data : {
+                status: jobStatus
+            }
+        });
+        redirectToJobsPage();
+        return { message: 'success'}
+    } catch(err) {
+        return { message: 'error'}
+    }
+}
+
 export const redirectToJobPage = id => {
     redirect(`/jobify/${id}`)
 }
