@@ -1,16 +1,29 @@
+import { useMutation, useQueryClient } from '@tanstack/react-query'
 import React from 'react'
+import { redirectToJobsPage, updateJob } from '../utils/actions'
 
 const statusOptions = ['Applied','Offer','Interview','Rejected']
 
 
 const EditJob = ({data}) => {
 
+  const queryClient = useQueryClient();
+
+  const { isPending, mutate } = useMutation({
+    mutationFn: (formData) => updateJob(data.id, formData),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey:['jobs']})
+      redirectToJobsPage();
+    }
+  })
+
   const handleSubmit = (e) => {
     e.preventDefault();
     const formData = new FormData(e.target);
-    const job = Object.fromEntries(formData.entries())
-    console.log("KEYSS",job)
+    //const job = Object.fromEntries(formData.entries())
+    mutate(formData)
  }
+
 
   return (
     <form className='max-w-2xl mt-5' onSubmit={handleSubmit}>

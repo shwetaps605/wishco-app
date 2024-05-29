@@ -13,6 +13,9 @@ const JobsComponent = () => {
     queryFn: () => getAllJobs(),
   })
 
+  const queryClient = useQueryClient();
+
+
   const deleteJobQuery = useMutation({
     mutationFn: async id => {
       const reponse = await deleteJob(id);
@@ -32,7 +35,6 @@ const JobsComponent = () => {
     }
   })
 
-  const queryClient = useQueryClient();
 
   const getBadgeColor = (jobStatus) => {
     console.log(jobStatus)
