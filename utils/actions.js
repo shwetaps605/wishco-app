@@ -108,7 +108,6 @@ export const updateJob = async (id,formData) => {
                 status: jobStatus
             }
         });
-        redirectToJobsPage();
         return { message: 'success'}
     } catch(err) {
         return { message: 'error'}
