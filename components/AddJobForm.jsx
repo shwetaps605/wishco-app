@@ -3,7 +3,7 @@ import React, { useEffect } from 'react'
 import { addNewJob,redirectToJobsPage } from '../utils/actions'
 import toast from 'react-hot-toast'
 import { useFormStatus, useFormState } from 'react-dom'
-import { useMutation } from '@tanstack/react-query'
+import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { redirect } from 'next/navigation'
 
 
@@ -13,21 +13,28 @@ const initialState = {
 
 const AddJobForm = () => {
 
-  // { pending } = useFormStatus();
+  const queryClient = useQueryClient();
 
   const { mutate, isPending } = useMutation({
     mutationFn: (formData) => addNewJob(formData),
     onSuccess: (response) => {
-      console.log("on success->",response);
       if(response.message === 'success') {
             toast.success(response.message);
-            console.log("TOAST MESSAGE:", response.message)
-            redirectToJobsPage();
+            invalidateQueries().then(()=>{
+              redirectToJobsPage();
+            })
           } else {
             toast.error('Job could not be added')
           }
     }
   })
+
+  const invalidateQueries = () => {
+    return new Promise((resolve,reject) => {
+      queryClient.invalidateQueries({queryKey:['jobs']})
+      resolve();
+    })
+  }
 
   // const [actionResponseState, formAction ] = useFormState(addNewJob, initialState)
   // console.log('formState-->', actionResponseState)  
