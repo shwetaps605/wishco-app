@@ -15,7 +15,7 @@ const layout = ({children}) => {
                 </div>
                 
             </div>
-            <div className='drawer-side'>
+            <div className='drawer-side border-r-2-white'>
                 <label htmlFor='my-drawer-2' aria-label='close sidebar' className='drawer-overlay'>
                     <Sidebar/>
                 </label>
