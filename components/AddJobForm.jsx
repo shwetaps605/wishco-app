@@ -6,11 +6,6 @@ import { useFormStatus, useFormState } from 'react-dom'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { redirect } from 'next/navigation'
 
-
-const initialState = {
-  message: null
-}
-
 const AddJobForm = () => {
 
   const queryClient = useQueryClient();
