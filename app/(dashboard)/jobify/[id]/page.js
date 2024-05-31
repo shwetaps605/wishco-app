@@ -3,6 +3,7 @@ import { useQuery } from '@tanstack/react-query'
 import EditJob from '../../../../components/EditJob'
 import { fetchJobDetails, redirectToJobsPage } from '../../../../utils/actions'
 import { useEffect, useState } from 'react'
+import { FiLink } from "react-icons/fi";
 
 
 const JobPage = (props) => {
@@ -47,12 +48,14 @@ const JobPage = (props) => {
             <button className='mb-5 btn btn-accent btn-md' onClick={()=>redirectToJobsPage()}>Back to Jobs</button>
             <div className='flex flex-col mb-5'>
                 <div>
-                    <span>
-                        <h1 className='text-2xl mr-1 capitalize'>{data.jobTitle}</h1>
-                        {data.jobUrl ?? 
-                            <a href={data.jobUrl} title='View Job'/>
+                    <div className='join'>
+                        <h1 className='text-2xl mr-1 capitalize join-item'>{data.jobTitle}</h1>
+                        {
+                            data.jobUrl.length > 0 ? <div className='join-item flex items-center'>
+                                <a href={data.jobUrl} target="_blank"><FiLink className='text-primary'/></a>
+                            </div> : null
                         }
-                    </span>
+                    </div>
                     <p className='text-lg text-primary'>@{data.companyName}</p>
                 </div>
 
