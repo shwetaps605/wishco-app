@@ -15,6 +15,7 @@ const JobPage = (props) => {
     
     })
 
+
     useEffect(()=>{
         console.log("DATA-->",data)
         if(data != undefined) {
@@ -25,6 +26,17 @@ const JobPage = (props) => {
        
     },[data])
 
+    const fetchCompanyRatings = async companyName  => {
+        try {
+            let response = await fetch("http://api.glassdoor.com/api/api.htm?v=1&format=json&t.p=102567&t.k=bEJk395y8Qe&action=employers&q=" + companyName);
+            var companyData = await response.json()
+        }catch(err) {
+            console.log("ERROR")
+        }
+        
+        console.log("COMPANY DATA ->",companyData);
+    }
+
 
     if(isPending) return <div>
         <div className="flex flex-col gap-4 w-52">
@@ -34,6 +46,12 @@ const JobPage = (props) => {
             <div className="skeleton h-4 w-full"></div>
         </div>
     </div>
+
+    if(data) {
+        fetchCompanyRatings(data.companyName);
+    }
+
+    
 
 
    
