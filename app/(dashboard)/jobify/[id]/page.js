@@ -4,7 +4,7 @@ import EditJob from '../../../../components/EditJob'
 import { fetchCompanyDetails, fetchJobDetails, redirectToJobsPage } from '../../../../utils/actions'
 import { useEffect, useState } from 'react'
 import { FiLink } from "react-icons/fi";
-
+import CompanyDetails from "../../../../components/CompanyDetails"
 
 const JobPage = (props) => {
     const [status,setStatus] = useState("");
@@ -37,8 +37,6 @@ const JobPage = (props) => {
 
     return(
         <>
-            {/* <EditJob/> */}
-
             <button className='mb-5 btn btn-accent btn-md' onClick={()=>redirectToJobsPage()}>Back to Jobs</button>
             <div className='flex flex-col mb-5'>
                 <div>
@@ -52,19 +50,9 @@ const JobPage = (props) => {
                     </div>
                     <p className='text-lg text-primary'>@{jobQuery.data.companyName}</p>
                     {companyQuery.isPending ? <p>Fetching company details...</p>
-                    : <p className='text-lg text-accent'>{companyQuery?.data?.sectorName}</p>}
+                    : <CompanyDetails company={companyQuery?.data}/>}
                 </div>
-
-                {/* <p className='text-secondary'>Added at: {data.createdAt.getTime().toLocaleString()}</p> */}
-
                 <EditJob data={jobQuery.data}/>
-
-                
-
-               
-                
-
-
             </div>
 
         </>
