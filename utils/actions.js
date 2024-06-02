@@ -121,3 +121,15 @@ export const redirectToJobPage = id => {
 export const redirectToJobsPage = id => {
     redirect(`/jobify`)
 }
+
+export const fetchCompanyDetails = async companyName => {
+    
+    try {
+        const response = await fetch(`http://api.glassdoor.com/api/api.htm?v=1&format=json&t.p=102567&t.k=bEJk395y8Qe&action=employers&q=${companyName}`);
+        const companyData = await response.json();
+        return companyData.response?.employers[0];
+    }catch(err) {
+        console.log("ERROR")
+    }
+    
+}
