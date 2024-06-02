@@ -1,44 +1,27 @@
 'use client'
 import { useQuery } from '@tanstack/react-query'
 import EditJob from '../../../../components/EditJob'
-import { fetchJobDetails, redirectToJobsPage } from '../../../../utils/actions'
+import { fetchCompanyDetails, fetchJobDetails, redirectToJobsPage } from '../../../../utils/actions'
 import { useEffect, useState } from 'react'
 import { FiLink } from "react-icons/fi";
-
+import CompanyDetails from "../../../../components/CompanyDetails"
 
 const JobPage = (props) => {
     const [status,setStatus] = useState("");
 
-    const {data, isPending} = useQuery({
+    const jobQuery = useQuery({
         queryKey: ['jobs',props?.params?.id],
         queryFn: () => fetchJobDetails(props.params?.id),
-    
+    })
+
+    const companyQuery = useQuery({
+        queryKey: ['jobs',jobQuery?.data?.id, 'company'],
+        enabled: jobQuery?.data?.companyName != null,
+        queryFn: () => fetchCompanyDetails(jobQuery?.data?.companyName)
     })
 
 
-    useEffect(()=>{
-        console.log("DATA-->",data)
-        if(data != undefined) {
-            console.log(data.status)
-            setStatus(data.status)
-            console.log('status added -->',status)
-        }
-       
-    },[data])
-
-    const fetchCompanyRatings = async companyName  => {
-        try {
-            let response = await fetch("http://api.glassdoor.com/api/api.htm?v=1&format=json&t.p=102567&t.k=bEJk395y8Qe&action=employers&q=" + companyName);
-            var companyData = await response.json()
-        }catch(err) {
-            console.log("ERROR")
-        }
-        
-        console.log("COMPANY DATA ->",companyData);
-    }
-
-
-    if(isPending) return <div>
+    if(jobQuery.isPending) return <div>
         <div className="flex flex-col gap-4 w-52">
             {/* <div className="skeleton h-32 w-full"></div> */}
             <div className="skeleton h-4 w-28"></div>
@@ -47,46 +30,29 @@ const JobPage = (props) => {
         </div>
     </div>
 
-    if(data) {
-        fetchCompanyRatings(data.companyName);
+    if(companyQuery.data) {
+        console.log("COMPANY DATA->",companyQuery.data)
     }
 
-    
-
-
-   
-
-    const viewOption = obj => {
-        
-    }
 
     return(
         <>
-            {/* <EditJob/> */}
             <button className='mb-5 btn btn-accent btn-md' onClick={()=>redirectToJobsPage()}>Back to Jobs</button>
             <div className='flex flex-col mb-5'>
                 <div>
                     <div className='join'>
-                        <h1 className='text-2xl mr-1 capitalize join-item'>{data.jobTitle}</h1>
+                        <h1 className='text-2xl mr-1 capitalize join-item'>{jobQuery.data.jobTitle}</h1>
                         {
-                            data.jobUrl.length > 0 ? <div className='join-item flex items-center'>
-                                <a href={data.jobUrl} target="_blank"><FiLink className='text-primary'/></a>
+                            jobQuery.data.jobUrl.length > 0 ? <div className='join-item flex items-center'>
+                                <a href={jobQuery.data.jobUrl} target="_blank"><FiLink className='text-primary'/></a>
                             </div> : null
                         }
                     </div>
-                    <p className='text-lg text-primary'>@{data.companyName}</p>
+                    <p className='text-lg text-primary'>@{jobQuery.data.companyName}</p>
+                    {companyQuery.isPending ? <p>Fetching company details...</p>
+                    : <CompanyDetails company={companyQuery?.data}/>}
                 </div>
-
-                {/* <p className='text-secondary'>Added at: {data.createdAt.getTime().toLocaleString()}</p> */}
-
-                <EditJob data={data}/>
-
-                
-
-               
-                
-
-
+                <EditJob data={jobQuery.data}/>
             </div>
 
         </>
