@@ -48,7 +48,7 @@ const JobPage = (props) => {
                             </div> : null
                         }
                     </div>
-                    <p className='text-lg text-primary'>@{jobQuery.data.companyName}</p>
+                    {/* <p className='text-lg text-primary'>@{jobQuery.data.companyName}</p> */}
                     {companyQuery.isPending ? <p>Fetching company details...</p>
                     : <CompanyDetails company={companyQuery?.data}/>}
                 </div>
