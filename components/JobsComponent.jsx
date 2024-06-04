@@ -1,7 +1,8 @@
 'use client'
 import React from 'react'
 import { useQuery, useQueryClient, useMutation } from '@tanstack/react-query';
-import { deleteJob, getAllJobs , redirectToJobPage} from '../utils/actions'
+import { deleteJob, getAllJobs , redirectToJobPage} from '../utils/actions';
+import EditJob from "./EditJob"
 import { FaRegEdit } from "react-icons/fa";
 import { RiDeleteBin6Line } from "react-icons/ri";
 import { GrLocation } from "react-icons/gr";
@@ -90,6 +91,8 @@ const JobsComponent = () => {
               <span>Delete</span>
               <RiDeleteBin6Line/>
             </button>
+
+              <EditJob data={job}/>
           </div>
         </div>
         

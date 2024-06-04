@@ -7,7 +7,6 @@ import { FiLink } from "react-icons/fi";
 import CompanyDetails from "../../../../components/CompanyDetails"
 
 const JobPage = (props) => {
-    const [status,setStatus] = useState("");
 
     const jobQuery = useQuery({
         queryKey: ['jobs',props?.params?.id],
@@ -52,7 +51,7 @@ const JobPage = (props) => {
                     {companyQuery.isPending ? <p>Fetching company details...</p>
                     : <CompanyDetails company={companyQuery?.data}/>}
                 </div>
-                <EditJob data={jobQuery.data}/>
+                {/* <EditJob data={jobQuery.data}/> */}
             </div>
 
         </>

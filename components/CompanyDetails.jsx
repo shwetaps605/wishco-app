@@ -1,6 +1,7 @@
 import Image from 'next/image'
 import React from 'react'
 import { FaRegUser } from "react-icons/fa6";
+import { LuExternalLink } from "react-icons/lu";
 import * as dayjs from 'dayjs'
 var relativeTime = require('dayjs/plugin/relativeTime')
 dayjs.extend(relativeTime)
@@ -13,7 +14,7 @@ const CompanyDetails = ({company}) => {
                 src={company?.squareLogo}
                 height={30}
                 width={30}
-                className='w-30 h-30 rounded-full shadow-lg mr-2'
+                className='w-30 h-30 rounded-full shadow-lg mr-2 object-scale-down'
                 alt={company?.name}
             />
             <div>
@@ -26,7 +27,10 @@ const CompanyDetails = ({company}) => {
         {/* <p>{company.overallRating}</p> */}
         {company?.featuredReview ? 
         <div className='flex flex-col mt-5'>
-        <h2 className='text-md text-accent'>Featured review</h2>
+            <div className='join flex items-center'>
+                <h2 className='text-md text-accent join-item mr-2'>Featured review</h2>
+                <a href={company?.featuredReview?.attributionURL} target="_blank"><LuExternalLink className='text-accent join-item'/></a>
+            </div>
         <div className='chat chat-start mt-4 w-full'>
             <div class="chat-image">
                 <div class="w-12 h-12 bg-base-300 flex items-center justify-center rounded-full">
