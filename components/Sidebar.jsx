@@ -1,11 +1,11 @@
-
+'use client'
 import SidebarHeader from "./SidebarHeader"
 import NavLinks from "./NavLinks"
 import MemberProfile from "./MemberProfile"
 
 const Sidebar = () => {
     return(
-        <div className="px-4 bg-base-200 py-12 grid">
+        <div className="px-4 w-60 min-h-full grid grid-rows-[auto,1fr,auto]">
             <SidebarHeader/>
             <NavLinks/>
             <MemberProfile/>
