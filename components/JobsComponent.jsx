@@ -67,6 +67,17 @@ const JobsComponent = () => {
   return (
     <>
     <h1 className='text-2xl'>My Jobs</h1>
+    <div className='bg-base-100 px-4 py-5 rounded-lg shadow-lg mt-2 mb-2'>
+      <h2 className='text-md text-base-400 mb-2'>Filters</h2>
+      <form>
+        <div className='join'>
+            <label htmlFor="company" className='bg-base-300 join-item  flex justify-center align-middle text-center items-center pl-2'>
+              <span className='text-xs mr-5'>Company Name</span>
+            </label>
+            <input type='text' name='company' required className='join-item input input-bordered'/>
+        </div>
+      </form>
+    </div>
     <div className='grid lg:grid-cols-3 sm:grid-cols-1 gap-5 mt-5'>
       {data.map(job => 
       <div key={job.id} className='card w-100 bg-base-300 shadow-md card-bordered'>
