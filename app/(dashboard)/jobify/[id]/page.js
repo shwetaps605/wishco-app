@@ -13,13 +13,6 @@ const JobPage = (props) => {
         queryFn: () => fetchJobDetails(props.params?.id),
     })
 
-    const companyQuery = useQuery({
-        queryKey: ['jobs',jobQuery?.data?.id, 'company'],
-        enabled: jobQuery?.data?.companyName != null,
-        queryFn: () => fetchCompanyDetails(jobQuery?.data?.companyName)
-    })
-
-
     if(jobQuery.isPending) return <div>
         <div className="flex flex-col gap-4 w-52">
             {/* <div className="skeleton h-32 w-full"></div> */}
@@ -28,10 +21,6 @@ const JobPage = (props) => {
             <div className="skeleton h-4 w-full"></div>
         </div>
     </div>
-
-    if(companyQuery.data) {
-        console.log("COMPANY DATA->",companyQuery.data)
-    }
 
 
     return(
@@ -47,11 +36,8 @@ const JobPage = (props) => {
                             </div> : null
                         }
                     </div>
-                    {/* <p className='text-lg text-primary'>@{jobQuery.data.companyName}</p> */}
-                    {companyQuery.isPending ? <p>Fetching company details...</p>
-                    : <CompanyDetails company={companyQuery?.data}/>}
+                    
                 </div>
-                {/* <EditJob data={jobQuery.data}/> */}
             </div>
 
         </>

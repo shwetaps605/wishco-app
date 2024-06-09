@@ -122,6 +122,10 @@ export const redirectToJobsPage = id => {
     redirect(`/jobify`)
 }
 
+export const redirectToCompanyDetailsPage = name => {
+    redirect(`/company/${name}`)
+}
+
 export const fetchCompanyDetails = async companyName => {
     
     try {
