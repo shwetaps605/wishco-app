@@ -2,25 +2,25 @@ import CompanyTile from "../../../components/CompanyTile"
 const companyMock = [
     {
         name: 'LinkedIn',
-        url: '',
+        url: 'https://www.linkedin.com/company/leap-global-education/',
         jobs: [],
         addedAt: Date.now()
     },
     {
         name: 'Google',
-        url: '',
+        url: 'https://www.linkedin.com/company/google/',
         jobs: [],
         addedAt: Date.now()
     },
     {
         name: 'Spinny',
-        url: '',
+        url: 'https://www.linkedin.com/company/spinny/',
         jobs: [],
         addedAt: Date.now()
     },
     {
         name: 'Meta',
-        url: '',
+        url: 'https://www.linkedin.com/company/meta/',
         jobs: [],
         addedAt: Date.now()
     }
