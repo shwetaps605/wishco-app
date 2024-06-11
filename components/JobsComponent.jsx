@@ -66,8 +66,7 @@ const JobsComponent = () => {
 
   return (
     <>
-    <h1 className='text-2xl'>My Jobs</h1>
-    <div className='bg-base-100 px-4 py-5 rounded-lg shadow-lg mt-2 mb-2'>
+    <div className='bg-base-100 px-4 py-5 rounded-lg shadow-lg mt-4 mb-4 mx-auto'>
       <h2 className='text-md text-base-400 mb-2'>Filters</h2>
       <form>
         <div className='join'>
