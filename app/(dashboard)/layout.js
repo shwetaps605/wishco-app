@@ -4,7 +4,7 @@ import Sidebar from '../../components/SideBar'
 
 const layout = ({children}) => {
     return (
-        <div className='drawer md:drawer-open sm:drawer-open'>
+        <div>
             <input type='checkbox' id='my-drawer-2' className='drawer-toggle'/>
             <div className='drawer-content'>
                 <div className='bg-base-200 px-8 py-12 min-h-screen'>
@@ -15,11 +15,11 @@ const layout = ({children}) => {
                 </div>
                 
             </div>
-            <div className='drawer-side'>
+            {/* <div className='drawer-side'>
                 <label htmlFor='my-drawer-2' aria-label='close sidebar' className='drawer-overlay'>
                 </label>
                 <Sidebar/>
-            </div>
+            </div> */}
         </div>
     );
 }

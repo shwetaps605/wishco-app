@@ -6,14 +6,14 @@ import Providers from "./providers";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata = {
-  title: "GPTGenius",
+  title: "Wishco",
   description: "A cool gpt page",
 };
 
 export default function RootLayout({ children }) {
   return (
     <ClerkProvider>
-      <html lang="en" data-theme="winter">
+      <html lang="en" data-theme="dracula">
         <body className={inter.className}>
           <Providers>
             <main>

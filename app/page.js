@@ -12,7 +12,7 @@ const HomePage = () => {
           <p className="py-6 text-lg leading-loose">
             Your AI language companion. Powered by OpenAI, it enhances your conversations, content creation and more!
           </p>
-          <Link className="btn btn-secondary" href={"/chat"}>Get Started</Link>
+          <Link className="btn btn-secondary" href={"/company"}>Get Started</Link>
 
         </div>
 

@@ -28,8 +28,8 @@ const companyMock = [
 const CompanyPage = () => {
     return(
         <div>
-            <h1 className="text-2xl text-primary">
-                <span className="underline underline-offset-8"><span className="text-accent font-medium">Wish</span>listed</span> companies
+            <h1 className="text-2xl text-secondary">
+                your <span className="underline underline-offset-8"><span className="text-accent font-medium"> wish</span>listed</span> <span className="text-accent font-medium">co</span>mpanies
             </h1>
             <div className="mt-10 grid grid-cols-[1fr,1fr,1fr,1fr] gap-5">
                 {companyMock.map(company => {
