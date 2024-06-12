@@ -27,22 +27,25 @@ const CompanyDetails = ({company}) => {
         {/* <p>{company.overallRating}</p> */}
         {company?.featuredReview ? 
         <div className='flex flex-col mt-5'>
-            <div className='join flex items-center'>
-                <h2 className='text-md text-accent join-item mr-2'>Featured review</h2>
-                <a href={company?.featuredReview?.attributionURL} target="_blank"><LuExternalLink className='text-accent join-item'/></a>
-            </div>
+            
         <div className='chat chat-start mt-4 w-full'>
-            <div class="chat-image">
+            {/* <div class="chat-image">
                 <div class="w-12 h-12 bg-base-300 flex items-center justify-center rounded-full">
                     <FaRegUser/>
                 </div>
-            </div>
-            <div className="chat-header flex flex-row justify-between">
-                <span className='text-xs mr-2'>{company?.featuredReview?.jobTitle} | {company?.featuredReview?.location}</span>
-                <time className='text-xs opacity-50'>{dayjs(company?.featuredReview?.reviewDateTime).fromNow()}</time>
+            </div> */}
+            <div className="chat-header flex flex-row justify-between items-center gap-2">
+                <div>
+                    <span className='text-xs mr-2'>{company?.featuredReview?.jobTitle} | {company?.featuredReview?.location}</span>
+                    <time className='text-xs opacity-50'>{dayjs(company?.featuredReview?.reviewDateTime).fromNow()}</time>
+                </div>
+                <div className='join hover:underline underline-offset-2'>
+                    {/* <h2 className='text-xs text-accent join-item mr-2'>See review</h2> */}
+                    <a href={company?.featuredReview?.attributionURL} target="_blank"><LuExternalLink className='text-accent hover:cursor-pointer'/></a>
+                </div>
             </div> 
-            <div className="chat-bubble mt-2">
-                <p className='text-lg text-slate-100'>{company?.featuredReview?.headline}</p>
+            <div className="chat-bubble mt-2 bg-base-200">
+                <p className='text-md text-info'>{company?.featuredReview?.headline}</p>
                 <span className='text-sm mr-2'>Pros: {company?.featuredReview?.pros}</span> 
                 <span className='text-sm'>Cons: {company?.featuredReview?.cons}</span> 
             </div>
