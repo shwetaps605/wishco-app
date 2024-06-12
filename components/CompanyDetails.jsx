@@ -5,10 +5,12 @@ import { LuExternalLink } from "react-icons/lu";
 import * as dayjs from 'dayjs'
 var relativeTime = require('dayjs/plugin/relativeTime')
 dayjs.extend(relativeTime)
+import Link from "next/link";
 
 const CompanyDetails = ({company}) => {
+    console.log("companyy-->",company)
   return (
-    <div className='w-[60%] bg-base-100 px-5 py-3 rounded-xl shadow-lg mt-3'>
+    <div className='w-[50%] bg-base-100 px-5 py-3 rounded-xl shadow-lg mt-3'>
         <div className='flex flex-row align-middle items-center mt-2'>
             <Image 
                 src={company?.squareLogo}
@@ -18,10 +20,12 @@ const CompanyDetails = ({company}) => {
                 alt={company?.name}
             />
             <div>
-            <p className='text-md'>{company.name}</p>
-            <p className='text-sm opacity-40'>{company.sectorName}</p>
-
-
+                {/* <p className='text-md'> */}
+                    <a href={company?.website} target="_blank" className='text-md hover:cursor-pointer' rel="noopener noreferrer">
+                        {company?.name}
+                    </a>
+                {/* </p> */}
+                <p className='text-sm opacity-40'>{company.sectorName}</p>
             </div>
         </div>
         {/* <p>{company.overallRating}</p> */}
