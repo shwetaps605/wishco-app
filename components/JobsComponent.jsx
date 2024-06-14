@@ -68,31 +68,37 @@ const JobsComponent = () => {
     <>
     <div className='bg-base-100 px-4 py-5 rounded-lg shadow-lg mt-4 mb-4 mx-auto'>
       <h2 className='text-md text-base-400 mb-2'>Filters</h2>
-      <form>
+      <form className='flex gap-4'>
         <div className='join'>
-            <label htmlFor="company" className='bg-base-300 join-item  flex justify-center align-middle text-center items-center pl-2'>
+            <label htmlFor="company" className='bg-base-200 join-item  flex justify-center align-middle text-center items-center pl-2'>
               <span className='text-xs mr-5'>Company Name</span>
             </label>
-            <input type='text' name='company' required className='join-item input input-bordered'/>
+            <input type='text' name='company' required className='join-item input bg-base-300'/>
+        </div>
+        <div className='join'>
+            <label htmlFor="role" className='bg-base-200 join-item  flex justify-center align-middle text-center items-center pl-2'>
+              <span className='text-xs mr-5'>Role</span>
+            </label>
+            <input type='text' name='role' required className='join-item input bg-base-300'/>
         </div>
       </form>
     </div>
-    <div className='grid lg:grid-cols-3 sm:grid-cols-1 gap-5 mt-5'>
+    <div className='mt-10 grid grid-cols-[1fr,1fr,1fr,1fr] gap-5'>
       {data.map(job => 
-      <div key={job.id} className='card w-100 bg-base-300 shadow-md card-bordered'>
-        <div className='card-body'>
+      <div key={job.id} className='px-5 py-3 border-2 border-base-100 shadow-md hover:shadow-lg rounded-lg hover:cursor-pointer'>
+        <div>
           <div className='flex justify-between items-top align-middle'>
-            <div>
-              <h2 className='card-title'>{job.jobTitle}</h2>
-              <p className='text-md text-primary'>@{job.companyName}</p>
+            <div className='items-center'>
+              <h2 className='text-secondary text-md'>{job.jobTitle}</h2>
+              <p className='text-md text-info opacity-55'>@{job.companyName}</p>
               <div className='mt-2 flex align-middle items-center text-slate-500 text-sm'>
                 <GrLocation className='mr-1'/>
                 {job.location ? job.location : 'Not Available'}
                 </div>
             </div>
-            <div className={`badge ${getBadgeColor(job.status)} badge-outline badge-lg`}>{job.status}</div>
+            <div className={`text-white opacity-40 text-xs`}>{job.status}</div>
           </div>
-          <div className="card-actions mt-3">
+          {/* <div className="card-actions mt-3">
             <button className="btn btn-accent btn-sm" onClick={()=> handleEditOption(job.id)}>
               <span>Edit</span>
               <FaRegEdit/>
@@ -102,8 +108,9 @@ const JobsComponent = () => {
               <RiDeleteBin6Line/>
             </button>
 
-              <EditJob data={job}/>
-          </div>
+          </div> */}
+          {/* <EditJob data={job}/> */}
+
         </div>
         
       </div>)}
