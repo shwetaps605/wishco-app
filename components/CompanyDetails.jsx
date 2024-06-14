@@ -61,23 +61,23 @@ const CompanyDetails = ({company}) => {
                     <h2 className='text-accent text-sm'>Work Life Balance rating</h2>
                     <p>{company?.workLifeBalanceRating}</p>
             </div>
-            <div className='bg-base-300 w-[50] h-[50] p-3 rounded-xl'>
+            <div className='bg-base-300 w-[50] h-[50] p-3 rounded-md'>
                     <h2 className='text-accent text-sm'>Culture and Values rating</h2>
                     <p>{company?.cultureAndValuesRating}</p>
             </div>
-            <div className='bg-base-300 w-[50] h-[50] p-3 rounded-xl'>
+            <div className='bg-base-300 w-[50] h-[50] p-3 rounded-md'>
                     <h2 className='text-accent text-sm'>Culture and Values rating</h2>
                     <p>{company?.cultureAndValuesRating}</p>
             </div>
-            <div className='bg-base-300 w-[50] h-[50] p-3 rounded-xl'>
+            <div className='bg-base-300 w-[50] h-[50] p-3 rounded-md'>
                     <h2 className='text-accent text-sm'>Culture and Values rating</h2>
                     <p>{company?.cultureAndValuesRating}</p>
             </div>
-            <div className='bg-base-300 w-[50] h-[50] p-3 rounded-xl'>
+            <div className='bg-base-300 w-[50] h-[50] p-3 rounded-md'>
                     <h2 className='text-accent text-sm'>Culture and Values rating</h2>
                     <p>{company?.cultureAndValuesRating}</p>
             </div>
-            <div className='bg-base-300 w-[50] h-[50] p-3 rounded-xl'>
+            <div className='bg-base-300 w-[50] h-[50] p-3 rounded-md'>
                     <h2 className='text-accent text-sm'>Culture and Values rating</h2>
                     <p>{company?.cultureAndValuesRating}</p>
             </div>
