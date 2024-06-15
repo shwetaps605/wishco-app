@@ -8,6 +8,8 @@ import { RiDeleteBin6Line } from "react-icons/ri";
 import { GrLocation } from "react-icons/gr";
 import toast from 'react-hot-toast';
 
+const statusOptions = ['Applied','Offer','Interview','Rejected']
+
 const JobsComponent = () => {
   const { isPending, isError, data, isFetching,fetchStatus} = useQuery({
     queryKey: ['jobs'],
@@ -80,6 +82,17 @@ const JobsComponent = () => {
               <span className='text-xs mr-5'>Role</span>
             </label>
             <input type='text' name='role' required className='join-item input bg-base-300'/>
+        </div>
+        <div className='join w-full'>
+            <label htmlFor="status" className='bg-base-200 join-item flex justify-center align-middle text-center items-center pl-2'>
+                <span className='text-xs mr-5'>Status</span>
+            </label>
+            <select name="status" id="status" className="select select-accent join-item max-w-sm">
+                {statusOptions.map(option => <option key={option} defaultValue={data.status} value={option} selected={data.status === option} > 
+                    {option}
+                </option>)}
+            </select>
+            {/* <button type='submit' className="btn btn-accent join-item">Update</button> */}
         </div>
       </form>
     </div>
