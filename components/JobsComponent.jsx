@@ -40,7 +40,6 @@ const JobsComponent = () => {
 
 
   const getBadgeColor = (jobStatus) => {
-    console.log(jobStatus)
     if(jobStatus === 'Applied')
       return 'badge-info'
     if(jobStatus === 'Interview')
