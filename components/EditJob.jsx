@@ -20,7 +20,6 @@ const EditJob = ({data}) => {
   const handleSubmit = (e) => {
     e.preventDefault();
     const formData = new FormData(e.target);
-    //const job = Object.fromEntries(formData.entries())
     mutate(formData)
  }
 
