@@ -3,32 +3,43 @@ import React from 'react'
 import { FaRegUser } from "react-icons/fa6";
 import { LuExternalLink } from "react-icons/lu";
 import * as dayjs from 'dayjs'
+import AddNewJobButton from "../components/AddJobButton"
 var relativeTime = require('dayjs/plugin/relativeTime')
 dayjs.extend(relativeTime)
 
 const CompanyDetails = ({company}) => {
   return (
+    <>
+    <AddNewJobButton companyName={company?.name}/>
     <div className='grid grid-cols-[2fr,2fr] w-full gap-5'>
-  
         <div className='bg-base-100 px-5 py-3 rounded-xl shadow-lg mt-3'>
-            <div className='flex flex-row align-middle items-center mt-2'>
-                <Image 
-                    src={company?.squareLogo}
-                    height={30}
-                    width={30}
-                    className='w-30 h-30 rounded-full shadow-lg mr-2 object-scale-down'
-                    alt={company?.name}
-                />
-                <div>
-                    <p className='text-md'>
-                        <a href={`https://${company?.website}`} target="_blank" className='hover:cursor-pointer' rel="noopener noreferrer">
-                            {company?.name}
-                        </a>
-                    </p>
-                    <p className='text-sm opacity-40'>{company.sectorName}</p>
+            <div className='flex flex-row justify-between items-center'>
+                <div className='flex flex-row align-middle items-center mt-2'>
+                    <Image 
+                        src={company?.squareLogo}
+                        height={30}
+                        width={30}
+                        className='w-30 h-30 rounded-full shadow-lg mr-2 object-scale-down'
+                        alt={company?.name}
+                    />
+                    <div>
+                        <p className='text-md'>
+                            <a href={`https://${company?.website}`} target="_blank" className='hover:cursor-pointer' rel="noopener noreferrer">
+                                {company?.name}
+                            </a>
+                        </p>
+                        <p className='text-sm opacity-40'>{company.sectorName}</p>
+                    </div>
+                </div>
+                <div className="rating">
+                    <input type="radio" name="rating-4" className="mask mask-star-2 bg-orange-400" />
+                    <input type="radio" name="rating-4" className="mask mask-star-2 bg-orange-400"  />
+                    <input type="radio" name="rating-4" className="mask mask-star-2 bg-orange-400" checked/>
+                    <input type="radio" name="rating-4" className="mask mask-star-2 bg-orange-400" />
+                    <input type="radio" name="rating-4" className="mask mask-star-2 bg-orange-400" />
                 </div>
             </div>
-            {/* <p>{company.overallRating}</p> */}
+            
             {company?.featuredReview ? 
             <div className='flex flex-col mt-5'>
                 <div className='chat chat-start mt-4 w-full'>
@@ -84,6 +95,8 @@ const CompanyDetails = ({company}) => {
 
         </div>
     </div>
+    </>
+    
   )
 }
 

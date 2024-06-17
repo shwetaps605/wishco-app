@@ -4,9 +4,13 @@ import { addNewJob,redirectToJobsPage } from '../utils/actions'
 import toast from 'react-hot-toast'
 import { useFormStatus, useFormState } from 'react-dom'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
-import { redirect } from 'next/navigation'
+// import { redirect } from 'next/navigation'
+import { useSearchParams } from 'next/navigation'
 
 const AddJobForm = () => {
+
+  const companyParams = useSearchParams();
+  const company = companyParams.get('company')
 
   const queryClient = useQueryClient();
 
@@ -52,7 +56,7 @@ const AddJobForm = () => {
 
   return (
     <form className='max-w-2xl' onSubmit={handleSubmit}>
-        <h2 className='text-2xl text-blue-500'>
+        <h2 className='text-xl text-accent'>
             Add a new job
         </h2>
         <div className='join w-full mt-10'>
@@ -66,7 +70,7 @@ const AddJobForm = () => {
             <label htmlFor="company" className='bg-base-300 join-item  flex justify-center align-middle text-center items-center pl-2  w-[50%]'>
               <span className='text-sm mr-5'>Company Name</span>
             </label>
-            <input type='text' name='company' required className='join-item input input-bordered w-full '/>
+            <input type='text' name='company' required className='join-item input input-bordered w-full' value={company ? company : ''}/>
         </div>
 
         <div className='join w-full mt-5'>
