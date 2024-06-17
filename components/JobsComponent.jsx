@@ -7,6 +7,7 @@ import { FaRegEdit } from "react-icons/fa";
 import { RiDeleteBin6Line } from "react-icons/ri";
 import { GrLocation } from "react-icons/gr";
 import toast from 'react-hot-toast';
+import AddNewJobButton from './AddJobButton';
 
 const statusOptions = ['Applied','Offer','Interview','Rejected']
 
@@ -67,6 +68,7 @@ const JobsComponent = () => {
 
   return (
     <>
+    <AddNewJobButton companyName={''}/>
     <div className='bg-base-100 px-4 py-5 rounded-lg shadow-lg mt-4 mb-4 mx-auto'>
       <h2 className='text-md text-base-400 mb-2'>Filters</h2>
       <form className='flex gap-4'>

@@ -2,11 +2,18 @@
 
 import React from 'react'
 import AddJobForm from '../../../../components/AddJobForm'
+import { Suspense } from 'react'
 
-const NewJob = () => {
+function NewJobFallback() {
+  return <>Loading...</>
+}
+
+const NewJob = ({params}) => {
     return (
         <>
-          <AddJobForm />
+          <Suspense fallback={<NewJobFallback/>}>
+            <AddJobForm />
+          </Suspense>
         </>
       )
 }
