@@ -29,7 +29,7 @@ const JobsComponent = () => {
       } else {
         toast.error('Something went wrong!!!')
       }
-
+ooo
     },
     onMutate: (obj) => {
       console.log("On Mutate", obj)

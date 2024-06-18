@@ -114,6 +114,22 @@ export const updateJob = async (id,formData) => {
     }
 }
 
+export const getJobsBasedOnCompanies = async queryString => {
+    try{
+        const jobsResponse = await prisma.jobApplication.findMany({
+            where: {
+                companyName: {
+                    contains: queryString
+                }
+            }
+        })
+        return { message: 'success', data:jobsResponse}
+    }
+    catch(err) {
+        return { message: 'Error', data: null}
+    }
+}
+
 export const redirectToJobPage = id => {
     redirect(`/jobify/${id}`)
 }

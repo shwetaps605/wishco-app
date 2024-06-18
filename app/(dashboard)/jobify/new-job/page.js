@@ -8,7 +8,7 @@ function NewJobFallback() {
   return <>Loading...</>
 }
 
-const NewJob = ({params}) => {
+const NewJob = () => {
     return (
         <>
           <Suspense fallback={<NewJobFallback/>}>
