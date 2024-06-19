@@ -119,7 +119,7 @@ export const getJobsBasedOnCompanies = async queryString => {
         const jobsResponse = await prisma.jobApplication.findMany({
             where: {
                 companyName: {
-                    contains: queryString
+                    startsWith: queryString
                 }
             }
         })

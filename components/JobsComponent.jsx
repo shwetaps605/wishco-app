@@ -1,7 +1,7 @@
 'use client'
 import React from 'react'
 import { useQuery, useQueryClient, useMutation } from '@tanstack/react-query';
-import { deleteJob, getAllJobs , redirectToJobPage} from '../utils/actions';
+import { deleteJob, getAllJobs , redirectToJobPage, getJobsBasedOnCompanies} from '../utils/actions';
 import EditJob from "./EditJob"
 import { FaRegEdit } from "react-icons/fa";
 import { RiDeleteBin6Line } from "react-icons/ri";
@@ -29,13 +29,24 @@ const JobsComponent = () => {
       } else {
         toast.error('Something went wrong!!!')
       }
-ooo
+
     },
     onMutate: (obj) => {
       console.log("On Mutate", obj)
     },
     onSuccess: (res) => {
      
+    }
+  })
+
+  const filterJobsQuery = useMutation({
+    mutationFn: async queryObj => {
+      console.log("****",queryObj.field, queryObj.query)
+      if(queryObj.field === 'companyName') {
+        console.log('filtering on name')
+        const response = await getJobsBasedOnCompanies(queryObj.query)
+        console.log(response)
+      }
     }
   })
 
@@ -62,6 +73,15 @@ ooo
     redirectToJobPage(id);
   }
 
+  const handleCompanyNameFilterQuery = query => {
+    const minLength = 2;
+    if (query.length % minLength === 0)
+      {
+        console.log('QUERY->',query)
+        filterJobsQuery.mutate({query, field:'companyName'})
+      }
+  }
+
   if(isPending) return <div>
     <span className='loading loading-dots loading-lg'></span>
   </div>
@@ -76,7 +96,7 @@ ooo
             <label htmlFor="company" className='bg-base-200 join-item  flex justify-center align-middle text-center items-center pl-2'>
               <span className='text-xs mr-5'>Company Name</span>
             </label>
-            <input type='text' name='company' required className='join-item input bg-base-300'/>
+            <input type='text' name='company' required className='join-item input bg-base-300' onChange={(e)=>handleCompanyNameFilterQuery(e.currentTarget.value)}/>
         </div>
         <div className='join'>
             <label htmlFor="role" className='bg-base-200 join-item  flex justify-center align-middle text-center items-center pl-2'>
