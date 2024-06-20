@@ -1,5 +1,5 @@
 'use client'
-import React from 'react'
+import React, {useCallback} from 'react'
 import { useQuery, useQueryClient, useMutation } from '@tanstack/react-query';
 import { deleteJob, getAllJobs , redirectToJobPage, getJobsBasedOnCompanies} from '../utils/actions';
 import EditJob from "./EditJob"
@@ -8,16 +8,32 @@ import { RiDeleteBin6Line } from "react-icons/ri";
 import { GrLocation } from "react-icons/gr";
 import toast from 'react-hot-toast';
 import AddNewJobButton from './AddJobButton';
+import { useRouter,useSearchParams, usePathname } from 'next/navigation'
+
 
 const statusOptions = ['Applied','Offer','Interview','Rejected']
 
 const JobsComponent = () => {
-  const { isPending, isError, data, isFetching,fetchStatus} = useQuery({
+  const jobsQuery = useQuery({
     queryKey: ['jobs'],
     queryFn: () => getAllJobs(),
   })
 
   const queryClient = useQueryClient();
+
+  const router = useRouter();
+  const pathname = usePathname();
+  let searchParams = useSearchParams();
+
+  const createQueryString = useCallback(
+    (name, value) => {
+      const params = new URLSearchParams(searchParams.toString())
+      params.set(name, value)
+ 
+      return params.toString()
+    },
+    [searchParams]
+  )
 
 
   const deleteJobQuery = useMutation({
@@ -41,11 +57,17 @@ const JobsComponent = () => {
 
   const filterJobsQuery = useMutation({
     mutationFn: async queryObj => {
-      console.log("****",queryObj.field, queryObj.query)
       if(queryObj.field === 'companyName') {
-        console.log('filtering on name')
+        console.log('FIELD->',queryObj.field, ' QUERY ->', queryObj.query)
         const response = await getJobsBasedOnCompanies(queryObj.query)
-        console.log(response)
+        console.log('RESPONSE->',response)
+        //jobsQuery.data = response
+        queryClient.setQueryData(['jobs'], (oldData) => {
+          console.log('old-->',oldData)
+          //jobsQuery.refetch()
+
+          return response.data
+        })
       }
     }
   })
@@ -73,16 +95,16 @@ const JobsComponent = () => {
     redirectToJobPage(id);
   }
 
-  const handleCompanyNameFilterQuery = query => {
+  const handleFilterQuery = (field,queryString) => {
     const minLength = 2;
-    if (query.length % minLength === 0)
+    if (queryString.length % minLength === 0)
       {
-        console.log('QUERY->',query)
-        filterJobsQuery.mutate({query, field:'companyName'})
+        router.push(pathname + '?' + createQueryString(field,queryString), { scroll: false });
+        filterJobsQuery.mutate({query:queryString , field})
       }
   }
 
-  if(isPending) return <div>
+  if(jobsQuery.isPending) return <div>
     <span className='loading loading-dots loading-lg'></span>
   </div>
 
@@ -96,7 +118,7 @@ const JobsComponent = () => {
             <label htmlFor="company" className='bg-base-200 join-item  flex justify-center align-middle text-center items-center pl-2'>
               <span className='text-xs mr-5'>Company Name</span>
             </label>
-            <input type='text' name='company' required className='join-item input bg-base-300' onChange={(e)=>handleCompanyNameFilterQuery(e.currentTarget.value)}/>
+            <input type='text' name='company' required className='join-item input bg-base-300' onChange={(e)=>handleFilterQuery('companyName',e.currentTarget.value)}/>
         </div>
         <div className='join'>
             <label htmlFor="role" className='bg-base-200 join-item  flex justify-center align-middle text-center items-center pl-2'>
@@ -104,21 +126,20 @@ const JobsComponent = () => {
             </label>
             <input type='text' name='role' required className='join-item input bg-base-300'/>
         </div>
-        <div className='join w-full'>
+        {/* <div className='join w-full'>
             <label htmlFor="status" className='bg-base-200 join-item flex justify-center align-middle text-center items-center pl-2'>
                 <span className='text-xs mr-5'>Status</span>
             </label>
             <select name="status" id="status" className="select select-accent join-item max-w-sm">
-                {statusOptions.map(option => <option key={option} defaultValue={data.status} value={option} selected={data.status === option} > 
+                {statusOptions.map(option => <option key={option} defaultValue={jobsQuery.data.status} value={option} selected={jobsQuery.data.status === option} > 
                     {option}
                 </option>)}
             </select>
-            {/* <button type='submit' className="btn btn-accent join-item">Update</button> */}
-        </div>
+        </div> */}
       </form>
     </div>
     <div className='mt-10 grid grid-cols-[1fr,1fr,1fr,1fr] gap-5'>
-      {data.map(job => 
+      {jobsQuery.data.map(job => 
       <div key={job.id} className='px-5 py-3 border-2 border-base-100 shadow-md hover:shadow-lg rounded-lg hover:cursor-pointer'>
         <div>
           <div className='flex justify-between items-top align-middle'>

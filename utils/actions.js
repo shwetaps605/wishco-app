@@ -114,7 +114,7 @@ export const updateJob = async (id,formData) => {
     }
 }
 
-export const getJobsBasedOnCompanies = async queryString => {
+export const getJobsBasedOnCompanies = async (queryString) => {
     try{
         const jobsResponse = await prisma.jobApplication.findMany({
             where: {
