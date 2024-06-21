@@ -1,7 +1,7 @@
 'use client'
 import React, {useCallback} from 'react'
 import { useQuery, useQueryClient, useMutation } from '@tanstack/react-query';
-import { deleteJob, getAllJobs , redirectToJobPage, getJobsBasedOnCompanies} from '../utils/actions';
+import { deleteJob, getAllJobs , redirectToJobPage, getJobsBasedOnCompanies,filterJobs} from '../utils/actions';
 import EditJob from "./EditJob"
 import { FaRegEdit } from "react-icons/fa";
 import { RiDeleteBin6Line } from "react-icons/ri";
@@ -19,17 +19,17 @@ const JobsComponent = () => {
     queryFn: () => getAllJobs(),
   })
 
-  const queryClient = useQueryClient();
+  const queryClient = useQueryClient();                                                                                                                                       
 
   const router = useRouter();
   const pathname = usePathname();
-  let searchParams = useSearchParams();
+  const searchParams = useSearchParams();
 
   const createQueryString = useCallback(
     (name, value) => {
       const params = new URLSearchParams(searchParams.toString())
+
       params.set(name, value)
- 
       return params.toString()
     },
     [searchParams]
@@ -45,33 +45,33 @@ const JobsComponent = () => {
       } else {
         toast.error('Something went wrong!!!')
       }
-
     },
     onMutate: (obj) => {
       console.log("On Mutate", obj)
     },
     onSuccess: (res) => {
-     
     }
   })
+
+  // const filterJobsQuery = useMutation({
+  //   mutationFn: async queryObj => {
+  //     console.log("QUERY OBJECT->", queryObj)
+  //     //console.log("QUERY PARAMS",searchParams.getAll())
+  //     if(queryObj.field === 'companyName') {
+  //       const response = await getJobsBasedOnCompanies(queryObj.query)
+  //       queryClient.setQueryData(['jobs'], (oldData) => response.data)
+  //     }
+  //   }
+  // })
 
   const filterJobsQuery = useMutation({
-    mutationFn: async queryObj => {
-      if(queryObj.field === 'companyName') {
-        console.log('FIELD->',queryObj.field, ' QUERY ->', queryObj.query)
-        const response = await getJobsBasedOnCompanies(queryObj.query)
-        console.log('RESPONSE->',response)
-        //jobsQuery.data = response
-        queryClient.setQueryData(['jobs'], (oldData) => {
-          console.log('old-->',oldData)
-          //jobsQuery.refetch()
+    mutationFn: async () => {
 
-          return response.data
-        })
-      }
+        console.log("SEARCH PARAMS->", searchParams.get('companyName'))
+        const response = await filterJobs(searchParams)
+        queryClient.setQueryData(['jobs'], () => response.data)
     }
   })
-
 
   const getBadgeColor = (jobStatus) => {
     if(jobStatus === 'Applied')
@@ -96,12 +96,8 @@ const JobsComponent = () => {
   }
 
   const handleFilterQuery = (field,queryString) => {
-    const minLength = 2;
-    if (queryString.length % minLength === 0)
-      {
-        router.push(pathname + '?' + createQueryString(field,queryString), { scroll: false });
-        filterJobsQuery.mutate({query:queryString , field})
-      }
+      router.push(pathname + '?' + createQueryString(field,queryString),{ scroll: false });
+      filterJobsQuery.mutate()
   }
 
   if(jobsQuery.isPending) return <div>
@@ -124,7 +120,7 @@ const JobsComponent = () => {
             <label htmlFor="role" className='bg-base-200 join-item  flex justify-center align-middle text-center items-center pl-2'>
               <span className='text-xs mr-5'>Role</span>
             </label>
-            <input type='text' name='role' required className='join-item input bg-base-300'/>
+            <input type='text' name='role' required className='join-item input bg-base-300' onChange={(e)=>handleFilterQuery('role',e.currentTarget.value)}/>
         </div>
         {/* <div className='join w-full'>
             <label htmlFor="status" className='bg-base-200 join-item flex justify-center align-middle text-center items-center pl-2'>

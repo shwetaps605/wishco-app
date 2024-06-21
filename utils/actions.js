@@ -130,6 +130,33 @@ export const getJobsBasedOnCompanies = async (queryString) => {
     }
 }
 
+export const filterJobs = async (queryParams) => {
+    let dict = {}
+    queryParams.forEach(query => {
+        dict[query[0]] = query[1]
+    })
+    console.log("DICT->", dict)
+    try{
+        const jobsResponse = await prisma.jobApplication.findMany({
+            where: {
+                companyName: {
+                    startsWith: dict['companyName']
+                },
+                jobTitle: {
+                    startsWith: dict['role']
+                },
+                status : {
+                    equals: dict['status']
+                }
+            }
+        })
+        return { message: 'success', data:jobsResponse}
+    }
+    catch(err) {
+        return { message: 'Error', data: null}
+    }
+}
+
 export const redirectToJobPage = id => {
     redirect(`/jobify/${id}`)
 }
