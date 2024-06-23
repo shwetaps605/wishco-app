@@ -28,8 +28,8 @@ const JobsComponent = () => {
   const createQueryString = useCallback(
     (name, value) => {
       const params = new URLSearchParams(searchParams.toString())
-
       params.set(name, value)
+      filterJobsQuery.mutate(params)
       return params.toString()
     },
     [searchParams]
@@ -65,10 +65,8 @@ const JobsComponent = () => {
   // })
 
   const filterJobsQuery = useMutation({
-    mutationFn: async () => {
-
-        console.log("SEARCH PARAMS->", searchParams.get('companyName'))
-        const response = await filterJobs(searchParams)
+    mutationFn: async (params) => {
+        const response = await filterJobs(params)
         queryClient.setQueryData(['jobs'], () => response.data)
     }
   })
@@ -97,7 +95,6 @@ const JobsComponent = () => {
 
   const handleFilterQuery = (field,queryString) => {
       router.push(pathname + '?' + createQueryString(field,queryString),{ scroll: false });
-      filterJobsQuery.mutate()
   }
 
   if(jobsQuery.isPending) return <div>
