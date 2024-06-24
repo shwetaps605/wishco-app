@@ -16,7 +16,7 @@ const statusOptions = ['Applied','Offer','Interview','Rejected']
 const JobsComponent = () => {
   const jobsQuery = useQuery({
     queryKey: ['jobs'],
-    queryFn: () => getAllJobs(),
+    queryFn: () => filterJobs(searchParams),
   })
 
   const queryClient = useQueryClient();                                                                                                                                       
@@ -67,7 +67,7 @@ const JobsComponent = () => {
   const filterJobsQuery = useMutation({
     mutationFn: async (params) => {
         const response = await filterJobs(params)
-        queryClient.setQueryData(['jobs'], () => response.data)
+        queryClient.setQueryData(['jobs'], () => response)
     }
   })
 
@@ -111,13 +111,19 @@ const JobsComponent = () => {
             <label htmlFor="company" className='bg-base-200 join-item  flex justify-center align-middle text-center items-center pl-2'>
               <span className='text-xs mr-5'>Company Name</span>
             </label>
-            <input type='text' name='company' required className='join-item input bg-base-300' onChange={(e)=>handleFilterQuery('companyName',e.currentTarget.value)}/>
+            <input 
+              type='text' 
+              name='company' 
+              required 
+              className='join-item input bg-base-300'
+              value={searchParams.get('companyName') ?? '' } 
+              onChange={(e)=>handleFilterQuery('companyName',e.currentTarget.value)}/>
         </div>
         <div className='join'>
             <label htmlFor="role" className='bg-base-200 join-item  flex justify-center align-middle text-center items-center pl-2'>
               <span className='text-xs mr-5'>Role</span>
             </label>
-            <input type='text' name='role' required className='join-item input bg-base-300' onChange={(e)=>handleFilterQuery('role',e.currentTarget.value)}/>
+            <input type='text' name='role' required value={searchParams.get('role') ?? '' }  className='join-item input bg-base-300' onChange={(e)=>handleFilterQuery('role',e.currentTarget.value)}/>
         </div>
         {/* <div className='join w-full'>
             <label htmlFor="status" className='bg-base-200 join-item flex justify-center align-middle text-center items-center pl-2'>

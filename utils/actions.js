@@ -148,12 +148,15 @@ export const filterJobs = async (queryParams) => {
                 status : {
                     equals: dict['status']
                 }
+            },
+            orderBy: {
+                createdAt: 'desc'
             }
         })
-        return { message: 'success', data:jobsResponse}
+        return jobsResponse
     }
     catch(err) {
-        return { message: 'Error', data: null}
+        return null
     }
 }
 
