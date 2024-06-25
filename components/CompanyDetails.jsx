@@ -4,10 +4,17 @@ import { FaRegUser } from "react-icons/fa6";
 import { LuExternalLink } from "react-icons/lu";
 import * as dayjs from 'dayjs'
 import AddNewJobButton from "../components/AddJobButton"
+import { useQueryClient } from '@tanstack/react-query';
 var relativeTime = require('dayjs/plugin/relativeTime')
 dayjs.extend(relativeTime)
 
 const CompanyDetails = ({company}) => {
+
+    const queryClient = useQueryClient()
+
+    const jobsData = queryClient.getQueryData([['jobs']])
+    console.log("JOBS DATA->", jobsData)
+    
   return (
     <>
     <AddNewJobButton companyName={company?.name}/>
@@ -94,6 +101,9 @@ const CompanyDetails = ({company}) => {
             </div>
 
         </div>
+    </div>
+    <div>
+
     </div>
     </>
     
