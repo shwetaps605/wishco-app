@@ -73,7 +73,7 @@ const JobsComponent = () => {
       </form>
     </div>
     <div className='mt-10 grid grid-cols-[1fr,1fr,1fr,1fr] gap-5'>
-      {jobsQuery.data.map(job => <JobTile job={job}/>)}
+      {jobsQuery.data.map(job => <JobTile key={job.id} job={job}/>)}
     </div>
     </>
     

@@ -114,12 +114,12 @@ export const updateJob = async (id,formData) => {
     }
 }
 
-export const getJobsBasedOnCompanies = async (queryString) => {
+export const getJobsBasedOnCompanies = async (name) => {
     try{
         const jobsResponse = await prisma.jobApplication.findMany({
             where: {
                 companyName: {
-                    startsWith: queryString
+                    equals: name
                 }
             }
         })
@@ -135,7 +135,6 @@ export const filterJobs = async (queryParams) => {
     queryParams.forEach(query => {
         dict[query[0]] = query[1]
     })
-    console.log("DICT->", dict)
     try{
         const jobsResponse = await prisma.jobApplication.findMany({
             where: {

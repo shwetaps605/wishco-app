@@ -1,5 +1,5 @@
 import { GrLocation } from "react-icons/gr";
-import { deleteJob, getAllJobs , redirectToJobPage, getJobsBasedOnCompanies,filterJobs} from '../utils/actions';
+import { deleteJob} from '../utils/actions';
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 const JobTile = ({job}) => {
@@ -31,7 +31,7 @@ const JobTile = ({job}) => {
 
 
     return(
-     <div key={job.id} className='px-5 py-3 border-2 border-base-100 shadow-md hover:shadow-lg rounded-lg hover:cursor-pointer'>
+     <div className='px-5 py-3 border-2 border-base-100 shadow-md hover:shadow-lg rounded-lg hover:cursor-pointer'>
         <div>
           <div className='flex justify-between items-top align-middle'>
             <div className='items-center'>

@@ -12,6 +12,10 @@ const JobPage = (props) => {
         queryKey: ['jobs',props?.params?.id],
         queryFn: () => fetchJobDetails(props.params?.id),
     })
+    const queryClient = useQueryClient()
+    const jobsData = queryClient.getQueryData([['jobs']])
+    console.log("JOBS DATA 33->", jobsData)
+    
 
     if(jobQuery.isPending) return <div>
         <div className="flex flex-col gap-4 w-52">
