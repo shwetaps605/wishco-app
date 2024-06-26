@@ -5,21 +5,19 @@ import { filterJobs} from '../utils/actions';
 import AddNewJobButton from './AddJobButton';
 import { useRouter,useSearchParams, usePathname } from 'next/navigation'
 import JobTile from './JobTile'
+import { useJobs } from '../app/hooks/useJobs';
 
 
 const statusOptions = ['Applied','Offer','Interview','Rejected']
 
 const JobsComponent = () => {
-  const jobsQuery = useQuery({
-    queryKey: ['jobs'],
-    queryFn: () => filterJobs(searchParams),
-  })
+  const searchParams = useSearchParams();
 
-  const queryClient = useQueryClient();                                                                                                                                       
-
+  const jobsQuery = useJobs(searchParams);
+  const queryClient = useQueryClient();     
+  
   const router = useRouter();
   const pathname = usePathname();
-  const searchParams = useSearchParams();
 
   const createQueryString = useCallback(
     (name, value) => {

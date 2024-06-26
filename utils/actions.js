@@ -119,7 +119,7 @@ export const getJobsBasedOnCompanies = async (name) => {
         const jobsResponse = await prisma.jobApplication.findMany({
             where: {
                 companyName: {
-                    equals: name
+                    equals: name,
                 }
             }
         })
@@ -131,6 +131,7 @@ export const getJobsBasedOnCompanies = async (name) => {
 }
 
 export const filterJobs = async (queryParams) => {
+    console.log('filter params->',queryParams)
     let dict = {}
     queryParams.forEach(query => {
         dict[query[0]] = query[1]

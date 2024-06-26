@@ -5,11 +5,8 @@ import { fetchCompanyDetails, getJobsBasedOnCompanies } from '../../../../utils/
 
 
 const CompanyDetailPage = ({params}) => {
-
-    const queryClient = useQueryClient()
-
     const companyQuery = useQuery({
-        queryKey: [ 'company',params.name],
+        queryKey: ['companies',params.name],
         queryFn: async () => {
             const response = await fetchCompanyDetails(params.name)
             return response;

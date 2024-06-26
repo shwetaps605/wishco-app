@@ -1,21 +1,13 @@
 'use client'
-import { useQuery } from '@tanstack/react-query'
-import EditJob from '../../../../components/EditJob'
+import { useQuery, useQueryClient ,dehydrate, HydrationBoundary, QueryClient} from '@tanstack/react-query'
+// import EditJob from '../../../../components/EditJob'
 import { fetchCompanyDetails, fetchJobDetails, redirectToJobsPage } from '../../../../utils/actions'
-import { useEffect, useState } from 'react'
-import { FiLink } from "react-icons/fi";
-import CompanyDetails from "../../../../components/CompanyDetails"
+// import { useEffect, useState } from 'react'
+
+
 
 const JobPage = (props) => {
 
-    const jobQuery = useQuery({
-        queryKey: ['jobs',props?.params?.id],
-        queryFn: () => fetchJobDetails(props.params?.id),
-    })
-    const queryClient = useQueryClient()
-    const jobsData = queryClient.getQueryData([['jobs']])
-    console.log("JOBS DATA 33->", jobsData)
-    
 
     if(jobQuery.isPending) return <div>
         <div className="flex flex-col gap-4 w-52">
@@ -29,7 +21,8 @@ const JobPage = (props) => {
 
     return(
         <>
-            <button className='mb-5 btn btn-accent btn-md' onClick={()=>redirectToJobsPage()}>Back to Jobs</button>
+        {/* <HydrationBoundary state={dehydrate(queryClientt)}> */}
+        <button className='mb-5 btn btn-accent btn-md' onClick={()=>redirectToJobsPage()}>Back to Jobs</button>
             <div className='flex flex-col mb-5'>
                 <div>
                     <div className='join'>
@@ -43,6 +36,8 @@ const JobPage = (props) => {
                     
                 </div>
             </div>
+        {/* </HydrationBoundary> */}
+            
 
         </>
     )

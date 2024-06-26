@@ -1,20 +1,19 @@
 import Image from 'next/image'
-import React from 'react'
-import { FaRegUser } from "react-icons/fa6";
+import React, { useEffect, useState } from 'react'
 import { LuExternalLink } from "react-icons/lu";
 import * as dayjs from 'dayjs'
 import AddNewJobButton from "../components/AddJobButton"
-import { useQueryClient } from '@tanstack/react-query';
+import { useJobs } from '../app/hooks/useJobs';
+import JobTile from './JobTile';
 var relativeTime = require('dayjs/plugin/relativeTime')
 dayjs.extend(relativeTime)
 
 const CompanyDetails = ({company}) => {
 
-    const queryClient = useQueryClient()
-
-    const jobsData = queryClient.getQueryData([['jobs']])
-    console.log("JOBS DATA->", jobsData)
-    
+    const jobsDataQuery = useJobs([[]])
+    let filteredJobs = [];
+    if(jobsDataQuery.data) filteredJobs = jobsDataQuery.data.filter(job => job.companyName.toLowerCase() == company.name.toLowerCase());
+        
   return (
     <>
     <AddNewJobButton companyName={company?.name}/>
@@ -102,8 +101,21 @@ const CompanyDetails = ({company}) => {
 
         </div>
     </div>
-    <div>
 
+    <div className='mt-10'>
+       
+        {
+        jobsDataQuery.isPending ?
+           <div className="flex flex-col gap-4 w-52 bg-base-100">
+             <div className="skeleton h-50 w-full"></div>
+           </div>
+           : <div>
+            <h1 className='mb-7 text-lg opacity-40'>{filteredJobs.length > 0 ? 'added jobs' : 'no added jobs' }</h1>
+            <div className='grid grid-cols-[1fr,1fr,1fr,1fr] gap-5'>
+            {filteredJobs.map(job => <JobTile key={job.id} job={job}/>)}
+           </div>
+           </div>
+        }
     </div>
     </>
     
