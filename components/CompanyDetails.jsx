@@ -1,23 +1,23 @@
 import Image from 'next/image'
-import React from 'react'
-import { FaRegUser } from "react-icons/fa6";
+import React, { useEffect, useState } from 'react'
 import { LuExternalLink } from "react-icons/lu";
 import * as dayjs from 'dayjs'
 import AddNewJobButton from "../components/AddJobButton"
-import { useQueryClient } from '@tanstack/react-query';
+import { useJobs } from '../app/hooks/useJobs';
 var relativeTime = require('dayjs/plugin/relativeTime')
 dayjs.extend(relativeTime)
+import JobsComponent from './JobsComponent';
+import SkeletonLoader from './SkeletonLoader';
 
 const CompanyDetails = ({company}) => {
 
-    const queryClient = useQueryClient()
-
-    const jobsData = queryClient.getQueryData([['jobs']])
-    console.log("JOBS DATA->", jobsData)
-    
+    const jobsDataQuery = useJobs([[]])
+    let filteredJobs = [];
+    if(jobsDataQuery.data) filteredJobs = jobsDataQuery.data.filter(job => job.companyName.toLowerCase() == company.name.toLowerCase());
+        
   return (
     <>
-    <AddNewJobButton companyName={company?.name}/>
+    
     <div className='grid grid-cols-[2fr,2fr] w-full gap-5'>
         <div className='bg-base-100 px-5 py-3 rounded-xl shadow-lg mt-3'>
             <div className='flex flex-row justify-between items-center'>
@@ -102,8 +102,21 @@ const CompanyDetails = ({company}) => {
 
         </div>
     </div>
-    <div>
 
+    <div className='mt-10'>
+       
+        {
+        jobsDataQuery.isPending ?
+        <SkeletonLoader/>
+        : 
+        <div>
+            <div className='flex flex-row justify-between w-full'>
+               <h1 className='mb-7 text-lg opacity-40'>{filteredJobs.length > 0 ? 'added jobs' : 'no added jobs' }</h1>
+               <AddNewJobButton companyName={company?.name}/>
+            </div>
+            <JobsComponent jobs={filteredJobs}/>
+        </div>
+        }
     </div>
     </>
     

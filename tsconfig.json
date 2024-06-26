@@ -27,7 +27,7 @@
     ".next/types/**/*.ts",
     "**/*.ts",
     "**/*.tsx"
-, "components/EditJob.jsx"  ],
+, "components/EditJob.jsx", "components/FilterJobs.jsx"  ],
   "exclude": [
     "node_modules"
   ]

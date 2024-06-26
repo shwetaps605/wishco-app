@@ -2,16 +2,40 @@
 import Link from "next/link";
 import { usePathname  } from "next/navigation";
 
+const navLinks = [
+    {
+        href: '/company',
+        label: 'companies'
+    },
+    {
+        href: '/jobify',
+        label: 'jobs'
+    }
+]
+
 const Header = () => {
-    const currentPage = usePathname();
+    const pathname = usePathname();
     return(
-        <div className="flex flex-row justify-between items-center mb-12">
-             <h1 className="text-2xl text-secondary">
-                your<span className="underline underline-offset-8"><span className="text-accent font-medium"> wish</span>listed</span> <span className="text-accent font-medium">co</span>mpanies
-            </h1>
-            <span className="text-2xl text-primary hover:cursor-pointer hover:underline underline-offset-8 ">
-                <Link href={currentPage === '/company' ? '/jobify' : '/company'}>{currentPage === '/company' ? 'jobs' : 'companies'}</Link>
-            </span>
+        <div className="flex flex-row justify-between items-center bg-base-300 w-full py-5 px-10 bg-opacity-85">
+            <div>
+                <h1 className="text-accent font-medium text-2xl italic font-serif ">wishco</h1>
+                <h3 className="text-xs text-secondary text-center">
+                   your<span><span className="text-accent font-medium"> wish</span>listed</span> 
+                   <p><span className="text-accent font-medium">co</span>mpanies</p>
+                </h3>
+            </div>
+
+            <ul className="flex flex-row gap-5 ">
+                {navLinks.map(navlink => {
+                    const isActive = pathname.includes(navlink.href);
+                    return (
+                        <li className={`hover:underline underline-offset-8 ${isActive ? "text-accent" : "text-secondary"} text-lg`}>
+                           <Link href={navlink.href} >{navlink.label}</Link>
+                        </li>
+                    )
+                    
+                })}
+            </ul>
         </div>
     )
 

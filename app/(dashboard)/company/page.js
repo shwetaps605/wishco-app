@@ -1,4 +1,5 @@
 import CompanyTile from "../../../components/CompanyTile"
+import GridLayout from "../../../layouts/GridLayout"
 const companyMock = [
     {
         name: 'LinkedIn',
@@ -27,11 +28,11 @@ const companyMock = [
 ]
 const CompanyPage = () => {
     return(
-        <div className="mt-10 grid grid-cols-[1fr,1fr,1fr,1fr] gap-5">
+        <GridLayout>
             {companyMock.map(company => {
                 return <CompanyTile company={company} key={company.name}/>
             })}
-        </div>
+        </GridLayout>
     )
 }
 
