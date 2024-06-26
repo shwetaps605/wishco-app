@@ -1,5 +1,5 @@
 'use client'
-import { fetchCompanyDetails, redirectToCompanyDetailsPage } from "../utils/actions";
+import { redirectToCompanyDetailsPage } from "../utils/actions";
 import * as dayjs from 'dayjs'
 var relativeTime = require('dayjs/plugin/relativeTime')
 dayjs.extend(relativeTime)

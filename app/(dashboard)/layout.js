@@ -3,10 +3,13 @@ import Header from '../../components/Header'
 
 const layout = ({children}) => {
     return (
-        <div className='px-20 py-12 bg-base-200 min-h-screen'>
-            <Header/>
+        <div className='bg-base-200 min-h-screen'>
+        <Header/>
+        <div className='px-20 py-8'>
             {children}
         </div>
+        </div>
+        
     );
 }
 
