@@ -4,9 +4,10 @@ import { LuExternalLink } from "react-icons/lu";
 import * as dayjs from 'dayjs'
 import AddNewJobButton from "../components/AddJobButton"
 import { useJobs } from '../app/hooks/useJobs';
-import JobTile from './JobTile';
 var relativeTime = require('dayjs/plugin/relativeTime')
 dayjs.extend(relativeTime)
+import JobsComponent from './JobsComponent';
+import SkeletonLoader from './SkeletonLoader';
 
 const CompanyDetails = ({company}) => {
 
