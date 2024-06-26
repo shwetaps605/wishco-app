@@ -8,7 +8,3 @@ export const useJobs = (params) => useQuery({
     
 })
 
-export const useJobsForCompanies = name => useQuery({
-    queryKey: ['jobs'],
-    queryFn: () => getJobsBasedOnCompanies(name)
-})

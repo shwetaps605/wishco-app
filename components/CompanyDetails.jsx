@@ -106,15 +106,12 @@ const CompanyDetails = ({company}) => {
        
         {
         jobsDataQuery.isPending ?
-           <div className="flex flex-col gap-4 w-52 bg-base-100">
-             <div className="skeleton h-50 w-full"></div>
-           </div>
-           : <div>
+        <SkeletonLoader/>
+        : 
+        <div>
             <h1 className='mb-7 text-lg opacity-40'>{filteredJobs.length > 0 ? 'added jobs' : 'no added jobs' }</h1>
-            <div className='grid grid-cols-[1fr,1fr,1fr,1fr] gap-5'>
-            {filteredJobs.map(job => <JobTile key={job.id} job={job}/>)}
-           </div>
-           </div>
+            <JobsComponent jobs={filteredJobs}/>
+        </div>
         }
     </div>
     </>
