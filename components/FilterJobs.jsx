@@ -35,11 +35,11 @@ const FilterJobs = () => {
       })
 
     return(
-    <div className='bg-base-100 px-4 py-5 rounded-lg shadow-lg mt-4 mb-4 mx-auto'>
-      <h2 className='text-md text-base-400 mb-2'>Filters</h2>
+    <div className=''>
+      <h2 className='text-sm text-base-400 mb-2 opacity-40'>Filters</h2>
       <form className='flex gap-4'>
         <div className='join'>
-            <label htmlFor="company" className='bg-base-200 join-item  flex justify-center align-middle text-center items-center pl-2'>
+            <label htmlFor="company" className='bg-base-100 join-item  flex justify-center align-middle text-center items-center pl-2'>
               <span className='text-xs mr-5'>Company Name</span>
             </label>
             <input 
@@ -51,7 +51,7 @@ const FilterJobs = () => {
               onChange={(e)=>handleFilterQuery('companyName',e.currentTarget.value)}/>
         </div>
         <div className='join'>
-            <label htmlFor="role" className='bg-base-200 join-item  flex justify-center align-middle text-center items-center pl-2'>
+            <label htmlFor="role" className='bg-base-100 join-item  flex justify-center align-middle text-center items-center pl-2'>
               <span className='text-xs mr-5'>Role</span>
             </label>
             <input type='text' name='role' required value={searchParams.get('role') ?? '' }  className='join-item input bg-base-300' onChange={(e)=>handleFilterQuery('role',e.currentTarget.value)}/>

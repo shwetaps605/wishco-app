@@ -17,7 +17,7 @@ const CompanyDetails = ({company}) => {
         
   return (
     <>
-    <AddNewJobButton companyName={company?.name}/>
+    
     <div className='grid grid-cols-[2fr,2fr] w-full gap-5'>
         <div className='bg-base-100 px-5 py-3 rounded-xl shadow-lg mt-3'>
             <div className='flex flex-row justify-between items-center'>
@@ -110,7 +110,10 @@ const CompanyDetails = ({company}) => {
         <SkeletonLoader/>
         : 
         <div>
-            <h1 className='mb-7 text-lg opacity-40'>{filteredJobs.length > 0 ? 'added jobs' : 'no added jobs' }</h1>
+            <div className='flex flex-row justify-between w-full'>
+               <h1 className='mb-7 text-lg opacity-40'>{filteredJobs.length > 0 ? 'added jobs' : 'no added jobs' }</h1>
+               <AddNewJobButton companyName={company?.name}/>
+            </div>
             <JobsComponent jobs={filteredJobs}/>
         </div>
         }

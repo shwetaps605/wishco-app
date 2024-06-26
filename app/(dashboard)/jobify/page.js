@@ -16,8 +16,11 @@ const JobifyPage = () => {
   return(
     <HydrationBoundary state={dehydrate(queryClient)}>
       <div>
-       <AddNewJobButton companyName={''}/>
-       <FilterJobs/>
+        <div className='flex flex-row justify-between w-full items-center'>
+        <FilterJobs/>
+        <AddNewJobButton companyName={''}/>
+        </div>
+       
        {jobsQuery.isPending ? <SkeletonLoader/> : <JobsComponent jobs={jobsQuery.data}/>}
       </div>
     </HydrationBoundary>

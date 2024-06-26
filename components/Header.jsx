@@ -27,7 +27,7 @@ const Header = () => {
 
             <ul className="flex flex-row gap-5 ">
                 {navLinks.map(navlink => {
-                    const isActive = pathname === navlink.href;
+                    const isActive = pathname.includes(navlink.href);
                     return (
                         <li className={`hover:underline underline-offset-8 ${isActive ? "text-accent" : "text-secondary"} text-lg`}>
                            <Link href={navlink.href} >{navlink.label}</Link>
