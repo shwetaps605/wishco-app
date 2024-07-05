@@ -4,11 +4,11 @@ import { usePathname  } from "next/navigation";
 
 const navLinks = [
     {
-        href: '/company',
+        href: '/',
         label: 'companies'
     },
     {
-        href: '/jobify',
+        href: '/jobs',
         label: 'jobs'
     }
 ]
@@ -28,6 +28,7 @@ const Header = () => {
             <ul className="flex flex-row gap-5 ">
                 {navLinks.map(navlink => {
                     const isActive = pathname.includes(navlink.href);
+                    console.log("PATTHNAME-->", pathname.toString().slice(1,navlink.href.length), "NAV HREF-->",navlink.href.toString().slice(1,navlink.href.length))
                     return (
                         <li className={`hover:underline underline-offset-8 ${isActive ? "text-accent" : "text-secondary"} text-lg`}>
                            <Link href={navlink.href} >{navlink.label}</Link>

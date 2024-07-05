@@ -3,7 +3,7 @@ import { redirectToCompanyDetailsPage } from "../utils/actions";
 import * as dayjs from 'dayjs'
 var relativeTime = require('dayjs/plugin/relativeTime')
 dayjs.extend(relativeTime)
-import { useJobs } from "../app/hooks/useJobs";
+import { useJobs } from "../hooks/useJobs";
 
 const CompanyTile = ({company}) => {
 

@@ -1,7 +1,7 @@
 'use client'
 import { useQuery, useQueryClient } from '@tanstack/react-query'
-import CompanyDetails from '../../../../components/CompanyDetails'
-import { fetchCompanyDetails, getJobsBasedOnCompanies } from '../../../../utils/actions'
+import CompanyDetails from '../../../components/CompanyDetails'
+import { fetchCompanyDetails, getJobsBasedOnCompanies } from '../../../utils/actions'
 
 
 const CompanyDetailPage = ({params}) => {
