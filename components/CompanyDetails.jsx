@@ -2,8 +2,8 @@ import Image from 'next/image'
 import React, { useEffect, useState } from 'react'
 import { LuExternalLink } from "react-icons/lu";
 import * as dayjs from 'dayjs'
-import AddNewJobButton from "../components/AddJobButton"
-import { useJobs } from '../app/hooks/useJobs';
+import AddNewJobButton from "./AddJobButton"
+import { useJobs } from '../hooks/useJobs';
 var relativeTime = require('dayjs/plugin/relativeTime')
 dayjs.extend(relativeTime)
 import JobsComponent from './JobsComponent';

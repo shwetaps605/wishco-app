@@ -1,5 +1,5 @@
-import CompanyTile from "../../../components/CompanyTile"
-import GridLayout from "../../../layouts/GridLayout"
+import CompanyTile from "../../components/CompanyTile"
+import GridLayout from "../../layouts/GridLayout"
 const companyMock = [
     {
         name: 'LinkedIn',
