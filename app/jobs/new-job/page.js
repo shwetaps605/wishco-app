@@ -1,7 +1,7 @@
 
 
 import React from 'react'
-import AddJobForm from '../../../../components/AddJobForm'
+import AddJobForm from '../../../components/AddJobForm'
 import { Suspense } from 'react'
 
 function NewJobFallback() {

@@ -35,8 +35,8 @@ const FilterJobs = () => {
       })
 
     return(
-    <div className=''>
-      <h2 className='text-sm text-base-400 mb-2 opacity-40'>Filters</h2>
+    <div>
+      {/* <h2 className='text-sm text-base-400 mb-2 opacity-40'>Filters</h2> */}
       <form className='flex gap-4'>
         <div className='join'>
             <label htmlFor="company" className='bg-base-100 join-item  flex justify-center align-middle text-center items-center pl-2'>
@@ -44,7 +44,7 @@ const FilterJobs = () => {
             </label>
             <input 
               type='text' 
-              name='company' 
+              name='company'
               required 
               className='join-item input bg-base-300'
               value={searchParams.get('companyName') ?? '' } 

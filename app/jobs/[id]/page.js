@@ -1,7 +1,6 @@
 'use client'
-import { useQuery, useQueryClient ,dehydrate, HydrationBoundary, QueryClient} from '@tanstack/react-query'
 // import EditJob from '../../../../components/EditJob'
-import { fetchCompanyDetails, fetchJobDetails, redirectToJobsPage } from '../../../../utils/actions'
+import { redirectToJobsPage } from '../../../utils/actions'
 // import { useEffect, useState } from 'react'
 
 
