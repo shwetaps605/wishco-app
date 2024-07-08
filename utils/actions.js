@@ -183,3 +183,8 @@ export const fetchCompanyDetails = async companyName => {
     }
     
 }
+
+// export const loadCompaniesForUser = async userId => {
+//     try {
+//     }
+// }
