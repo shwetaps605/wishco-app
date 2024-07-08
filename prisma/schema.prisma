@@ -23,11 +23,19 @@ datasource db {
 //   jobs JobApplication[] 
 // }
 
+model User {
+  name String
+  userId String @id
+  companies Company[]
+}
+
 model Company {
   name String @id
   addedAt DateTime @default(now())
   url String
   jobs JobApplication[] 
+  userId String
+  user User @relation(fields: [userId], references: [userId])
 }
 
 
