@@ -26,7 +26,17 @@ const companyMock = [
         addedAt: Date.now()
     }
 ]
+
+
+import { useUser } from "@clerk/nextjs"
+
 const CompanyPage = () => {
+    const { user, isLoaded, isSignedIn} = useUser();
+    console.log("Signed in user:", user)
+
+
+
+
     return(
         <GridLayout>
             {companyMock.map(company => {
