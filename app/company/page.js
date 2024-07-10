@@ -1,5 +1,7 @@
 import CompanyTile from "../../components/CompanyTile"
 import GridLayout from "../../layouts/GridLayout"
+import AddCompany from "../../components/AddCompany"
+
 const companyMock = [
     {
         name: 'LinkedIn',
@@ -28,21 +30,20 @@ const companyMock = [
 ]
 
 
-import { useUser } from "@clerk/nextjs"
+
 
 const CompanyPage = () => {
-    const { user, isLoaded, isSignedIn} = useUser();
-    console.log("Signed in user:", user)
-
-
-
-
     return(
-        <GridLayout>
-            {companyMock.map(company => {
-                return <CompanyTile company={company} key={company.name}/>
-            })}
-        </GridLayout>
+        <div>
+            <AddCompany/>
+            <GridLayout>
+                {companyMock.map(company => {
+                    return <CompanyTile company={company} key={company.name}/>
+                })}
+            </GridLayout>
+
+        </div>
+        
     )
 }
 
