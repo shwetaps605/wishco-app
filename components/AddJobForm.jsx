@@ -11,6 +11,7 @@ const AddJobForm = () => {
 
   const companyParams = useSearchParams();
   const company = companyParams.get('company')
+  console.log('pre-filled company', company)
 
   const queryClient = useQueryClient();
 
@@ -51,6 +52,7 @@ const AddJobForm = () => {
   const handleSubmit = e => {
     e.preventDefault();
     const formData = new FormData(e.currentTarget);
+    console.log(formData)
     mutate(formData);
   }
 
@@ -70,7 +72,7 @@ const AddJobForm = () => {
             <label htmlFor="company" className='bg-base-300 join-item  flex justify-center align-middle text-center items-center pl-2  w-[50%]'>
               <span className='text-sm mr-5'>Company Name</span>
             </label>
-            <input type='text' name='company' required className='join-item input input-bordered w-full' value={company ? company : ''}/>
+            <input type='text' name='company' required className='join-item input input-bordered w-full' value={company ? company : null}/>
         </div>
 
         <div className='join w-full mt-5'>

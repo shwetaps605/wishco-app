@@ -184,6 +184,11 @@ export const fetchCompanyDetails = async companyName => {
     
 }
 
+export const addCompanyForUser = async payload => {
+return { message: 'erer'}
+    
+}
+
 // export const loadCompaniesForUser = async userId => {
 //     try {
 //     }
