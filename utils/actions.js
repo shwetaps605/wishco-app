@@ -185,6 +185,7 @@ export const fetchCompanyDetails = async companyName => {
 }
 
 export const addCompanyForUser = async payload => {
+    console.log("PAYLOADDD-->", payload)
 return { message: 'erer'}
     
 }
