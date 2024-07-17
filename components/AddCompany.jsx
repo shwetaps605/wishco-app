@@ -13,7 +13,7 @@ const AddCompany = () => {
     }
 
 
-    const addCompanyQuery = useMutation({
+    const addCompanyQuery = useMutation({  
         mutationFn: async (url) => {
             const companyData = {
                 name: getCompanyNameFromUrl(url) ,
