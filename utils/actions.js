@@ -186,8 +186,25 @@ export const fetchCompanyDetails = async companyName => {
 
 export const addCompanyForUser = async payload => {
     console.log("PAYLOADDD-->", payload)
-return { message: 'erer'}
-    
+    const companyData = payload.compnayData
+    const data = {
+        userId: payload.userData.userId,
+        name:  payload.userData.name,
+        companies: [...companies,companyData]
+    }
+    console.log("ADD USER DATA...", data)
+    try {
+        // await prisma.user.create({
+        //     data: {
+        //         userId: payload.userData.userId,
+        //         name:  payload.userData.name,
+        //         companies: [...companies,companyData]
+        //     }
+
+        // })
+    } catch(err) {
+        return { message: err}
+    }
 }
 
 // export const loadCompaniesForUser = async userId => {
