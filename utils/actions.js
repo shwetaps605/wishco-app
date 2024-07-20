@@ -187,27 +187,36 @@ export const fetchCompanyDetails = async companyName => {
 export const addCompanyForUser = async payload => {
     console.log("PAYLOADDD-->", payload)
     const companyData = payload.compnayData
-    const data = {
-        userId: payload.userData.userId,
-        name:  payload.userData.name,
-        companies: [...companies,companyData]
-    }
-    console.log("ADD USER DATA...", data)
-    try {
-        // await prisma.user.create({
-        //     data: {
-        //         userId: payload.userData.userId,
-        //         name:  payload.userData.name,
-        //         companies: [...companies,companyData]
-        //     }
+    await loadCompaniesForUser(payload.userData.userId)
+    // const data = {
+    //     userId: payload.userData.userId,
+    //     name:  payload.userData.name,
+    //     companies: [...companies,companyData]
+    // }
+    // console.log("ADD USER DATA...", data)
+    // try {
+    //     await prisma.user.create({
+    //         data: {
+    //             userId: payload.userData.userId,
+    //             name:  payload.userData.name,
+    //         }
 
-        // })
-    } catch(err) {
-        return { message: err}
-    }
+    //     })
+    // } catch(err) {
+        return { message: 'err'}
+    //}
 }
 
-// export const loadCompaniesForUser = async userId => {
-//     try {
-//     }
-// }
+export const loadCompaniesForUser = async userId => {
+    try {
+        const response = await prisma.user.findUnique({
+            where:{
+                userId: userId
+            }
+        })
+        console.log('RESPONSE-->',response)
+    }
+    catch(err){
+        console.log('ERROR-->',err)
+    }
+}

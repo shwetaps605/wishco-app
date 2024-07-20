@@ -25,7 +25,7 @@ datasource db {
 
 model User {
   name String
-  userId String @id
+  userId String @id @unique
   companies Company[]
 }
 
