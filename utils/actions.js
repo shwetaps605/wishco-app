@@ -186,8 +186,22 @@ export const fetchCompanyDetails = async companyName => {
 
 export const addCompanyForUser = async payload => {
     console.log("PAYLOADDD-->", payload)
-    const companyData = payload.compnayData
-    await loadCompaniesForUser(payload.userData.userId)
+    //const companyData = payload.compnayData
+    const companyResponseForUser = await findUser(payload.userData.userId)
+    if(companyResponseForUser.data === null) {
+        const newUser = await addNewUser(payload.userData)
+        const userData = newUser.data;
+        userData.companies.push(payload.compnayData)
+        
+        const data = {
+            userId: payload.userData.userId,
+            name:  payload.userData.name,
+            companies: userData.companies
+        }
+
+        console.log("NEW USER DATA-->", data)
+
+    }
     // const data = {
     //     userId: payload.userData.userId,
     //     name:  payload.userData.name,
@@ -207,16 +221,33 @@ export const addCompanyForUser = async payload => {
     //}
 }
 
-export const loadCompaniesForUser = async userId => {
+export const findUser = async userId => {
     try {
         const response = await prisma.user.findUnique({
             where:{
                 userId: userId
             }
         })
-        console.log('RESPONSE-->',response)
+        return { message: 'Companies loaded for user successfully', data: response}
     }
     catch(err){
-        console.log('ERROR-->',err)
+        return { message: 'Companies not loaded for user', data: null}
+    }
+}
+
+export const addNewUser = async userPayload => {
+    try{
+        const response = await prisma.user.create({
+            data: {
+                userId: userPayload.userId,
+                name: userPayload.name,
+                companies: []
+            }
+        })
+
+        return { message: 'User added successfully', data: response}
+    }
+    catch(e) {
+        return { message: 'Error occured while adding user', data: e}
     }
 }
