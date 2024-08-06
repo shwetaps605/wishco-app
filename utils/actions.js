@@ -186,42 +186,50 @@ export const fetchCompanyDetails = async companyName => {
 
 export const addCompanyForUser = async payload => {
     console.log("PAYLOADDD-->", payload)
+    let user = null;
     //const companyData = payload.compnayData
-    const companyResponseForUser = await findUser(payload.userData.userId)
-    if(companyResponseForUser.data === null) {
-        const newUser = await addNewUser(payload.userData)
-        const userData = newUser.data;
-        userData.companies.push(payload.compnayData)
+    const existingUserResponse = await findUser(payload.userData.userId)
+    user = existingUserResponse.data;
+    if(user === null) {
+        const newUserResponse = await addNewUser(payload.userData)
+        user = newUserResponse.data;
         
-        const data = {
-            userId: payload.userData.userId,
-            name:  payload.userData.name,
-            companies: userData.companies
-        }
-
-        console.log("NEW USER DATA-->", data)
-
     }
-    // const data = {
-    //     userId: payload.userData.userId,
-    //     name:  payload.userData.name,
-    //     companies: [...companies,companyData]
-    // }
-    // console.log("ADD USER DATA...", data)
-    // try {
-    //     await prisma.user.create({
-    //         data: {
-    //             userId: payload.userData.userId,
-    //             name:  payload.userData.name,
-    //         }
+    //Here user is either existing user or new user
+    console.log("USER DATA-->", user)
 
-    //     })
-    // } catch(err) {
+    let companies = null;
+
+    if(typeof(user.companies) === 'undefined') {
+        //it's a new user with no companies
+        companies = [payload.companyData]
+    } else {
+        const existingCompanies = user.companies;
+        companies = [...existingCompanies,payload.companyData ]
+    }
+
+    console.log("Adding companies-->", companies)
+
+    try {
+        const updateUserResponse = await prisma.user.update({
+            where: {
+                userId: payload.userData.userId
+            },
+            data: {
+                companies: companies
+            }
+        })
+        console.log("USER UPDATED SUCCESSFULLY", updateUserResponse)
+    }catch(e) {
+        console.log("USER UPDATE FAILED with error", e)
+    }
+    
+    
         return { message: 'err'}
-    //}
 }
 
 export const findUser = async userId => {
+    console.log('Getting Existing User')
     try {
         const response = await prisma.user.findUnique({
             where:{
@@ -236,12 +244,12 @@ export const findUser = async userId => {
 }
 
 export const addNewUser = async userPayload => {
+    console.log('Adding New User')
     try{
         const response = await prisma.user.create({
             data: {
                 userId: userPayload.userId,
                 name: userPayload.name,
-                companies: []
             }
         })
 
