@@ -8,7 +8,7 @@ const AddCompany = () => {
     console.log("Signed in user:", user)
 
     const getCompanyNameFromUrl = (url) => {
-        return 'name';
+        return 'new-company';
 
     }
 
@@ -18,7 +18,7 @@ const AddCompany = () => {
             const companyData = {
                 name: getCompanyNameFromUrl(url) ,
                 url: url,
-                addedAt: Date.now(),
+                addedAt: new Date().toISOString(),
                 jobs: [],
                 userId: user.id
             }
