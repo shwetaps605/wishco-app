@@ -1,6 +1,7 @@
 'use server'
 import { redirect } from "next/navigation"
 import prisma from "./db"
+import { create } from "domain"
 
 export const generateChatResponse = async (chatMessage) => {
     await new Promise((resolve,reject) => setTimeout(resolve,1200))
@@ -216,7 +217,24 @@ export const addCompanyForUser = async payload => {
                 userId: payload.userData.userId
             },
             data: {
-                companies: companies
+                companies: {
+                    create: [
+                    {
+                        name: payload.companyData.name,
+                        url: payload.companyData.url,
+                        addedAt: payload.companyData.addedAt,
+                        jobs: {
+                            create: []
+                        }
+                    }]
+                }
+            },
+            include: {
+                companies: {
+                    include: {
+                        jobs: true
+                    }
+                }
             }
         })
         console.log("USER UPDATED SUCCESSFULLY", updateUserResponse)
@@ -234,6 +252,9 @@ export const findUser = async userId => {
         const response = await prisma.user.findUnique({
             where:{
                 userId: userId
+            },
+            include: {
+                companies: true
             }
         })
         return { message: 'Companies loaded for user successfully', data: response}
@@ -250,6 +271,12 @@ export const addNewUser = async userPayload => {
             data: {
                 userId: userPayload.userId,
                 name: userPayload.name,
+                companies: {
+                    create: []
+                }
+            },
+            include: {
+                companies: true
             }
         })
 
