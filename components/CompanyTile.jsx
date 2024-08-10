@@ -14,8 +14,9 @@ const CompanyTile = ({company}) => {
     }
 
     const getSourceFromUrl = (url) => {
-        const company = url.split('/')[2].split('.')[1]
-        return company
+        console.log("urll-->",url)
+        //const company = url.split('/')[2].split('.')[1]
+        return "company"
     }
 
     return(

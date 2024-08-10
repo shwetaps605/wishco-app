@@ -1,15 +1,20 @@
 'use client'
-import { useUser } from "@clerk/nextjs"
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { addCompanyForUser } from "../utils/actions";
 
-const AddCompany = () => {
-    const { user, isLoaded, isSignedIn} = useUser();
-    console.log("Signed in user:", user)
+const AddCompany = ({user}) => {
+
+    const queryClient = useQueryClient();
 
     const getCompanyNameFromUrl = (url) => {
-        return 'new-company';
-
+        const formattedURL = url.trim().split('/')
+        const previousIndex = formattedURL.findIndex(val => val === 'company')
+        let companyName = formattedURL[previousIndex+1]
+        if(companyName.includes('-')) {
+            companyName = companyName.trim().split('-').join(' ')
+            companyName = companyName[0].toUpperCase() + companyName.slice(1)
+        }
+        return companyName;
     }
 
 
@@ -27,9 +32,13 @@ const AddCompany = () => {
                 userId: user.id
             }
             const payload = { userData, companyData}
-            console.log("PAYLOAD-->", payload)
             const response = await addCompanyForUser(payload);
-            console.log("RESPONSE", response)
+            console.log("RESPONSE", response);
+            if(response.data != null) {
+                //Company was added succesfully for the user
+                //invalidate the cache for user
+                queryClient.invalidateQueries({ queryKey:['user', user?.id]})
+            }
         }
     });
 
@@ -37,9 +46,7 @@ const AddCompany = () => {
     const onSubmitCompany = (event) => {
         event.preventDefault();
         const formData = new FormData(event.currentTarget);
-        console.log("FORM DATA", formData)
         const url = Object.fromEntries(formData.entries()).companyUrl;
-        console.log("URL-->", url)
         addCompanyQuery.mutate(url)
     }
 

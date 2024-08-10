@@ -33,15 +33,9 @@ const companyMock = [
     }
 ]
 
-
-
-
 const CompanyPage = () => {
 
     const userQuery = useUser();
-    console.log("Signed in user:", userQuery.user)
-    console.log('USER ID--->',userQuery.user?.id)
-
     const { data, isPending , isError} = useQuery({
         queryKey: ['user', userQuery.user?.id],
         queryFn: () => findUser(userQuery.user?.id),
@@ -49,11 +43,9 @@ const CompanyPage = () => {
     });
 
     let renderedContent;
-    renderedContent = companyMock.map(company => {
-        return <CompanyTile company={company} key={company.name}/>  
-})
-
-    
+//     renderedContent = companyMock.map(company => {
+//         return <CompanyTile company={company} key={company.name}/>  
+// })
 
     if(isPending) {
         renderedContent = <div>
@@ -61,13 +53,13 @@ const CompanyPage = () => {
         </div>
     }
 
-    if(isError|| data.data.companies !== undefined || data.data.companies?.length === 0 ) {
+    if(isError|| data?.data.companies !== undefined || data?.data.companies?.length === 0 ) {
         renderedContent = <div>
             <h1 className="text-xl text-secondary m-auto">You have not wishlisted any companies yet.</h1>
         </div>
     }
 
-    if(data.data?.companies?.length > 0 ) {
+    if(data?.data?.companies?.length > 0 ) {
         const companies = data.data?.companies;
         console.log("COMPANIES ADDED FOR USER:-->", companies)
         renderedContent = companies.map(company => {
@@ -78,7 +70,7 @@ const CompanyPage = () => {
 
     return(
         <div>
-            <AddCompany/>
+            <AddCompany user={userQuery.user}/>
             <GridLayout>
                {renderedContent}
             </GridLayout>
