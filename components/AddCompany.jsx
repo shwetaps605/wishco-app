@@ -47,12 +47,17 @@ const AddCompany = ({user}) => {
         event.preventDefault();
         const formData = new FormData(event.currentTarget);
         const url = Object.fromEntries(formData.entries()).companyUrl;
-        addCompanyQuery.mutate(url)
+        if(url.length > 0)
+        {
+            addCompanyQuery.mutate(url)
+        } 
+        
     }
 
     return(
         <form onSubmit={onSubmitCompany}>
             <input
+            required
             name="companyUrl"
             className="input input-bordered w-full max-w-full bg-base-300" 
             type="text"
