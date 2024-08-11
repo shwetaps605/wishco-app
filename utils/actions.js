@@ -9,69 +9,77 @@ export const generateChatResponse = async (chatMessage) => {
     return { role: 'assistant',content: 'awesome'}
 }
 
-
-export const getExistingTour = async ({city,country}) => {
-    return null
-}
-
-export const generateTourResponse = async ({city,country}) => {
-    return null
-}
-
-export const createNewTour = async tour => {
-    return null
-}
-
-export const getAllTours = async searchTerm => {
-    if(!searchTerm) {
-    }
-
-}
-
 export const getAllJobs = async () => {
     return await prisma.jobApplication.findMany({orderBy: {
         createdAt: 'desc'
     }});
 }
 
-// export const addNewJob = async (prevState,formData) => {
-//     const job = Object.fromEntries(formData.entries())
-//     try {
-//         await prisma.jobApplication.create({
-//             data: {
-//                 jobTitle: job.jobTitle,
-//                 companyName: job.company,
-//                 location: job.location,
-//                 status: job.status,
-//                 jobUrl: job.jobUrl
-//             }
-//         });
-//         return { message: 'success'}
-//     } catch (error) {
-//         return { message: 'error'}
-//     }
-// }
-
-export const addNewJob = async (formData) => {
-    const job = Object.fromEntries(formData.entries())
+export const findCompany = async companyName => {
     try {
-        await prisma.jobApplication.create({
-            data: {
-                jobTitle: job.jobTitle,
-                companyName: job.company,
-                location: job.location,
-                status: job.status.charAt(0).toUpperCase()+job.status.slice(1),
-                jobUrl: job.jobUrl
+        const companyResponse = await prisma.company.findUnique({
+            where: {
+                name: companyName
             }
         });
-        return { message: 'success'}
-    } catch (error) {
-        return { message: 'error'}
+        return { message: 'Company found!', data: companyResponse}
+    } catch(err) {
+        return { message:'Company not found', data: null}
     }
 }
 
+export const addNewJob = async (formData) => {
+    const job = Object.fromEntries(formData.entries())
+    
+    // try {
+    //     await prisma.jobApplication.create({
+    //         data: {
+    //             jobTitle: job.jobTitle,
+    //             companyName: job.company,
+    //             location: job.location,
+    //             status: job.status.charAt(0).toUpperCase()+job.status.slice(1),
+    //             jobUrl: job.jobUrl
+    //         }
+    //     });
+
+        //UPDATE COMPANY FOR JOB
+        try {
+            const updatingCompanyResponse = await prisma.company.update({
+                where:{
+                    name: job.company
+                },
+                data: {
+                    jobs: {
+                        create: [
+                            {
+                                jobTitle: job.jobTitle,
+                                companyName: job.company,
+                                location: job.location,
+                                status: job.status.charAt(0).toUpperCase()+job.status.slice(1),
+                                jobUrl: job.jobUrl
+                            }
+                        ]
+                    }
+                },
+                include: {
+                    jobs: true
+                }
+
+            });
+
+            console.log("COMPANY UPDATED WITH JOB-->", updatingCompanyResponse)
+            return { message: 'job added successfully',data: updatingCompanyResponse}
+
+        }catch(err) {
+            return { message: 'failed to add job',data: null}
+        }
+        return { message: 'success'}
+    // } catch (error) {
+    //     return { message: 'error'}
+    // }
+}
+
 export const deleteJob = async id => {
-    //await new Promise((resolve,reject) => setTimeout(resolve,1200))
     try {
         await prisma.jobApplication.delete({
             where: {
