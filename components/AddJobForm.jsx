@@ -6,12 +6,12 @@ import { useFormStatus, useFormState } from 'react-dom'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 // import { redirect } from 'next/navigation'
 import { useSearchParams } from 'next/navigation'
+import { useUser } from '@clerk/nextjs'
 
 const AddJobForm = () => {
 
   const companyParams = useSearchParams();
   const company = companyParams.get('company')
-  console.log('pre-filled company', company)
 
   const queryClient = useQueryClient();
 
@@ -36,23 +36,9 @@ const AddJobForm = () => {
     })
   }
 
-  // const [actionResponseState, formAction ] = useFormState(addNewJob, initialState)
-  // console.log('formState-->', actionResponseState)  
-
-  // useEffect(()=>{
-  //   if(actionResponseState.message === 'success') {
-  //     toast.success(actionResponseState.message)
-  //   } else {
-  //     toast.error('Job could not be added')
-  //   }
-  // },[actionResponseState])
-  
-
-
   const handleSubmit = e => {
     e.preventDefault();
     const formData = new FormData(e.currentTarget);
-    console.log(formData)
     mutate(formData);
   }
 
