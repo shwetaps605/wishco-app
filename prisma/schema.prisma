@@ -30,7 +30,7 @@ model User {
 }
 
 model Company {
-  name String @id
+  name String @id @unique
   addedAt DateTime @default(now())
   url String
   jobs JobApplication[] 
