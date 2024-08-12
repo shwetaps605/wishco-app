@@ -20,11 +20,14 @@ const AddJobForm = () => {
     onSuccess: (response) => {
       if(response.message === 'success') {
             toast.success(response.message);
+            console.log("RESPONSE FROM SERVER ACTION", response)
             invalidateQueries().then(()=>{
-              redirectToJobsPage();
+              //redirectToJobsPage();
             })
           } else {
             toast.error('Job could not be added')
+            console.log("RESPONSE FROM SERVER ACTION status:FAILED", response)
+
           }
     }
   })

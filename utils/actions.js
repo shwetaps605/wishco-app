@@ -44,36 +44,57 @@ export const addNewJob = async (formData) => {
 
         //UPDATE COMPANY FOR JOB
         try {
-            const updatingCompanyResponse = await prisma.company.update({
-                where:{
-                    name: job.company
-                },
-                data: {
-                    jobs: {
-                        create: [
-                            {
-                                jobTitle: job.jobTitle,
-                                companyName: job.company,
-                                location: job.location,
-                                status: job.status.charAt(0).toUpperCase()+job.status.slice(1),
-                                jobUrl: job.jobUrl
-                            }
-                        ]
-                    }
-                },
-                include: {
-                    jobs: true
-                }
+            // const updatingCompanyResponse = await prisma.company.update({
+            //     where:{
+            //         name: job.company
+            //     },
+            //     data: {
+            //         jobs: {
+            //             create: [
+            //                 {
+            //                     jobTitle: job.jobTitle,
+            //                     location: job.location,
+            //                     status: job.status.charAt(0).toUpperCase()+job.status.slice(1),
+            //                     jobUrl: job.jobUrl,
+            //                     wishlisted: false
+            //                 }
+            //             ]
+            //         }
+            //     },
+            //     include: {
+            //         jobs: true
+            //     }
 
-            });
+            // });
+
+            // const updatingCompanyResponse = await prisma.jobApplication.create({
+            //     data: {
+            //         jobTitle: job.jobTitle,
+            //         location: job.location,
+            //         status: job.status.charAt(0).toUpperCase()+job.status.slice(1),
+            //         jobUrl: job.jobUrl,
+            //         wishlisted: false,
+            //         company: {
+            //             connect: {
+            //                 name: job.company
+            //             }
+            //         }
+            //     },
+                
+            // });
+
+            console.log("COMPANY NAME IS-->",job.company)
+            const updatingCompanyResponse = findCompany(job.company)
+
 
             console.log("COMPANY UPDATED WITH JOB-->", updatingCompanyResponse)
-            return { message: 'job added successfully',data: updatingCompanyResponse}
+            return { message: 'success',data: updatingCompanyResponse}
 
         }catch(err) {
-            return { message: 'failed to add job',data: null}
+            console.log("SOMETHING FAILED--->",err)
+            return { message: 'failed to add job',data: null, error:err}
         }
-        return { message: 'success'}
+        //return { message: 'success'}
     // } catch (error) {
     //     return { message: 'error'}
     // }
@@ -170,11 +191,11 @@ export const filterJobs = async (queryParams) => {
 }
 
 export const redirectToJobPage = id => {
-    redirect(`/jobify/${id}`)
+    redirect(`/jobs/${id}`)
 }
 
 export const redirectToJobsPage = id => {
-    redirect(`/jobify`)
+    redirect(`/jobs`)
 }
 
 export const redirectToCompanyDetailsPage = name => {
@@ -194,30 +215,30 @@ export const fetchCompanyDetails = async companyName => {
 }
 
 export const addCompanyForUser = async payload => {
-    console.log("PAYLOADDD-->", payload)
-    let user = null;
-    //const companyData = payload.compnayData
-    const existingUserResponse = await findUser(payload.userData.userId)
-    user = existingUserResponse.data;
-    if(user === null) {
-        const newUserResponse = await addNewUser(payload.userData)
-        user = newUserResponse.data;
+    // console.log("PAYLOADDD-->", payload)
+    // let user = null;
+    // //const companyData = payload.compnayData
+    // const existingUserResponse = await findUser(payload.userData.userId)
+    // user = existingUserResponse.data;
+    // if(user === null) {
+    //     const newUserResponse = await addNewUser(payload.userData)
+    //     user = newUserResponse.data;
         
-    }
-    //Here user is either existing user or new user
-    console.log("USER DATA-->", user)
+    // }
+    // //Here user is either existing user or new user
+    // console.log("USER DATA-->", user)
 
-    let companies = null;
+    // let companies = null;
 
-    if(typeof(user.companies) === 'undefined') {
-        //it's a new user with no companies
-        companies = [payload.companyData]
-    } else {
-        const existingCompanies = user.companies;
-        companies = [...existingCompanies,payload.companyData ]
-    }
+    // if(typeof(user.companies) === 'undefined') {
+    //     //it's a new user with no companies
+    //     companies = [payload.companyData]
+    // } else {
+    //     const existingCompanies = user.companies;
+    //     companies = [...existingCompanies,payload.companyData ]
+    // }
 
-    console.log("Adding companies-->", companies)
+    // console.log("Adding companies-->", companies)
 
     try {
         const updateUserResponse = await prisma.user.update({
@@ -248,10 +269,10 @@ export const addCompanyForUser = async payload => {
         console.log("USER UPDATED SUCCESSFULLY", updateUserResponse)
     }catch(e) {
         console.log("USER UPDATE FAILED with error", e)
+        return { message: 'err'}
     }
     
     
-        return { message: 'err'}
 }
 
 export const findUser = async userId => {
