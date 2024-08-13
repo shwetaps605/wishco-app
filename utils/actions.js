@@ -17,9 +17,14 @@ export const getAllJobs = async () => {
 
 export const findCompany = async companyName => {
     try {
-        const companyResponse = await prisma.company.findUnique({
+        const companyResponse = await prisma.company.findFirst({
             where: {
-                name: companyName
+                name:{
+                    startsWith: companyName,
+                }
+            },
+            include: {
+                jobs: true
             }
         });
         return { message: 'Company found!', data: companyResponse}
@@ -38,34 +43,33 @@ export const addNewJob = async (formData) => {
     //             companyName: job.company,
     //             location: job.location,
     //             status: job.status.charAt(0).toUpperCase()+job.status.slice(1),
-    //             jobUrl: job.jobUrl
+    //             jobUrl: job.job`Url
     //         }
     //     });
 
         //UPDATE COMPANY FOR JOB
         try {
-            // const updatingCompanyResponse = await prisma.company.update({
-            //     where:{
-            //         name: job.company
-            //     },
-            //     data: {
-            //         jobs: {
-            //             create: [
-            //                 {
-            //                     jobTitle: job.jobTitle,
-            //                     location: job.location,
-            //                     status: job.status.charAt(0).toUpperCase()+job.status.slice(1),
-            //                     jobUrl: job.jobUrl,
-            //                     wishlisted: false
-            //                 }
-            //             ]
-            //         }
-            //     },
-            //     include: {
-            //         jobs: true
-            //     }
+                const updatingCompanyResponse = await prisma.company.updateMany({
+                    where: {
+                        name: {
+                            startsWith: job.company
+                        }
+                    },
+                    data: {
+                        jobs: {
+                            create: [
+                                {
+                                    jobTitle: job.jobTitle,
+                                    location: job.location,
+                                    status: job.status.charAt(0).toUpperCase()+job.status.slice(1),
+                                    jobUrl: job.jobUrl,
+                                    wishlisted: false
+                                }
+                            ]
+                        }
+                    }
 
-            // });
+                });
 
             // const updatingCompanyResponse = await prisma.jobApplication.create({
             //     data: {
@@ -76,7 +80,9 @@ export const addNewJob = async (formData) => {
             //         wishlisted: false,
             //         company: {
             //             connect: {
-            //                 name: job.company
+            //                 name: {
+            //                     startsWith: job.company
+            //                 }
             //             }
             //         }
             //     },
@@ -84,7 +90,7 @@ export const addNewJob = async (formData) => {
             // });
 
             console.log("COMPANY NAME IS-->",job.company)
-            const updatingCompanyResponse = findCompany(job.company)
+            //const updatingCompanyResponse = await findCompany(job.company)
 
 
             console.log("COMPANY UPDATED WITH JOB-->", updatingCompanyResponse)
