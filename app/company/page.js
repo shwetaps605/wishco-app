@@ -53,7 +53,7 @@ const CompanyPage = () => {
         </div>
     }
 
-    if(isError|| data?.data.companies !== undefined || data?.data.companies?.length === 0 ) {
+    if(isError|| data?.data?.companies !== undefined || data?.data?.companies?.length === 0 ) {
         renderedContent = <div>
             <h1 className="text-xl text-secondary m-auto">You have not wishlisted any companies yet.</h1>
         </div>
