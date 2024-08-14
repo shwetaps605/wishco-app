@@ -221,30 +221,14 @@ export const fetchCompanyDetails = async companyName => {
 }
 
 export const addCompanyForUser = async payload => {
-    // console.log("PAYLOADDD-->", payload)
-    // let user = null;
-    // //const companyData = payload.compnayData
-    // const existingUserResponse = await findUser(payload.userData.userId)
-    // user = existingUserResponse.data;
-    // if(user === null) {
-    //     const newUserResponse = await addNewUser(payload.userData)
-    //     user = newUserResponse.data;
-        
-    // }
-    // //Here user is either existing user or new user
-    // console.log("USER DATA-->", user)
-
-    // let companies = null;
-
-    // if(typeof(user.companies) === 'undefined') {
-    //     //it's a new user with no companies
-    //     companies = [payload.companyData]
-    // } else {
-    //     const existingCompanies = user.companies;
-    //     companies = [...existingCompanies,payload.companyData ]
-    // }
-
-    // console.log("Adding companies-->", companies)
+    let user = null;
+    const existingUserResponse = await findUser(payload.userData.userId)
+    user = existingUserResponse.data;
+    if(user === null) {
+        const newUserResponse = await addNewUser(payload.userData)
+        user = newUserResponse.data;
+    }
+    console.log("USER DATA-->", user)
 
     try {
         const updateUserResponse = await prisma.user.update({
@@ -273,9 +257,10 @@ export const addCompanyForUser = async payload => {
             }
         })
         console.log("USER UPDATED SUCCESSFULLY", updateUserResponse)
+        return { message:'User updated succesfully', data: updateUserResponse}
     }catch(e) {
         console.log("USER UPDATE FAILED with error", e)
-        return { message: 'err'}
+        return { message: 'err', data: e}
     }
     
     

@@ -5,63 +5,35 @@ generator client {
   provider = "prisma-client-js"
 }
 
-// datasource db {
-//   provider = "postgresql"
-//   url      = env("DATABASE_URL")
-// }
-
 datasource db {
   provider = "sqlite"
   url      = "file:./dev.db"
 }
 
-
-// model Company {
-//   name String @id
-//   addedAt DateTime @default(now())
-//   url String
-//   jobs JobApplication[] 
-// }
-
 model User {
-  name String
-  userId String @id @unique
-  companies Company[]
+name String
+userId String @id @unique
+companies Company[]
 }
 
 model Company {
-  name String @id @unique
-  addedAt DateTime @default(now())
-  url String
-  jobs JobApplication[] 
-  userId String
-  user User @relation(fields: [userId], references: [userId])
+name String @id @unique
+addedAt DateTime @default(now())
+url String
+jobs JobApplication[]
+userId String
+user User @relation(fields: [userId], references: [userId])
+
 }
-
-
-// model JobApplication {
-//   id String @id @default(cuid()) 
-//   createdAt DateTime @default(now())
-//   updatedAt DateTime @updatedAt
-//   jobTitle String
-//   companyName String 
-//   jobUrl String
-//   location String
-//   status String
-//   wishlisted Boolean @default(false)
-//   company Company @relation(fields: [companyName], references: [name])
-// }
-
 model JobApplication {
-  id String @id @default(cuid()) 
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  jobTitle String
-  companyName String 
-  jobUrl String
-  location String
-  status String
-  wishlisted Boolean @default(false)
-  company Company @relation(fields: [companyName], references: [name])
+ id String @id @default(cuid())
+ createdAt DateTime @default(now())
+ updatedAt DateTime @updatedAt
+ jobTitle String
+ companyName String
+ jobUrl String
+ location String
+ status String
+ wishlisted Boolean @default(false)
+ company Company @relation(fields: [companyName], references: [name])
 }
-
