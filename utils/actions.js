@@ -19,8 +19,8 @@ export const findCompany = async companyName => {
     try {
         const companyResponse = await prisma.company.findFirst({
             where: {
-                name:{
-                    startsWith: companyName,
+                name: {
+                    startsWith: companyName
                 }
             },
             include: {
@@ -35,75 +35,67 @@ export const findCompany = async companyName => {
 
 export const addNewJob = async (formData) => {
     const job = Object.fromEntries(formData.entries())
-    
-    // try {
-    //     await prisma.jobApplication.create({
-    //         data: {
-    //             jobTitle: job.jobTitle,
-    //             companyName: job.company,
-    //             location: job.location,
-    //             status: job.status.charAt(0).toUpperCase()+job.status.slice(1),
-    //             jobUrl: job.job`Url
-    //         }
-    //     });
+    console.log("COMPANY NAME IS-->",job.company)
 
-        //UPDATE COMPANY FOR JOB
-        try {
-                const updatingCompanyResponse = await prisma.company.updateMany({
-                    where: {
-                        name: {
-                            startsWith: job.company
-                        }
-                    },
-                    data: {
-                        jobs: {
-                            create: [
-                                {
-                                    jobTitle: job.jobTitle,
-                                    location: job.location,
-                                    status: job.status.charAt(0).toUpperCase()+job.status.slice(1),
-                                    jobUrl: job.jobUrl,
-                                    wishlisted: false
-                                }
-                            ]
-                        }
-                    }
 
-                });
+    const existingCompany = await findCompany(job.company);
+    const companyId = existingCompany.data?.id;
 
-            // const updatingCompanyResponse = await prisma.jobApplication.create({
-            //     data: {
-            //         jobTitle: job.jobTitle,
-            //         location: job.location,
-            //         status: job.status.charAt(0).toUpperCase()+job.status.slice(1),
-            //         jobUrl: job.jobUrl,
-            //         wishlisted: false,
-            //         company: {
-            //             connect: {
-            //                 name: {
-            //                     startsWith: job.company
-            //                 }
-            //             }
+    console.log("EXISTING COMPANY-->", existingCompany)
+    try {
+            // const updatingCompanyResponse = await prisma.company.updateMany({
+            //     where: {
+            //         name: {
+            //             startsWith: job.company
             //         }
             //     },
-                
+            //     data: {
+            //         jobs: {
+            //             create: [
+            //                 {
+            //                     jobTitle: job.jobTitle,
+            //                     location: job.location,
+            //                     status: job.status.charAt(0).toUpperCase()+job.status.slice(1),
+            //                     jobUrl: job.jobUrl,
+            //                     wishlisted: false
+            //                 }
+            //             ]
+            //         }
+            //     }
+
             // });
 
-            console.log("COMPANY NAME IS-->",job.company)
-            //const updatingCompanyResponse = await findCompany(job.company)
+        const updatingCompanyResponse = await prisma.jobApplication.create({
+            data: {
+                jobTitle: job.jobTitle,
+                companyName: job.company,
+                location: job.location,
+                status: job.status.charAt(0).toUpperCase()+job.status.slice(1),
+                jobUrl: job.jobUrl,
+                wishlisted: false,
+                company: {
+                    connect: {
+                        id: companyId
+                    }
+                }
+            },
+            
+        });
+
+        //const updatingCompanyResponse = await findCompany(job.company)
 
 
-            console.log("COMPANY UPDATED WITH JOB-->", updatingCompanyResponse)
-            return { message: 'success',data: updatingCompanyResponse}
+        console.log("COMPANY UPDATED WITH JOB-->", updatingCompanyResponse)
+        return { message: 'success',data: updatingCompanyResponse}
 
-        }catch(err) {
-            console.log("SOMETHING FAILED--->",err)
-            return { message: 'failed to add job',data: null, error:err}
-        }
-        //return { message: 'success'}
-    // } catch (error) {
-    //     return { message: 'error'}
-    // }
+    }catch(err) {
+        console.log("SOMETHING FAILED--->",err)
+        return { message: 'failed to add job',data: null, error:err}
+    }
+    //return { message: 'success'}
+// } catch (error) {
+//     return { message: 'error'}
+// }
 }
 
 export const deleteJob = async id => {
@@ -166,12 +158,19 @@ export const getJobsBasedOnCompanies = async (name) => {
     }
 }
 
+// export const getAllJobs = async () => {
+//     try {
+//         const jobsResponse = await prisma.jobApplication.
+//     }
+// }
+
 export const filterJobs = async (queryParams) => {
     console.log('filter params->',queryParams)
     let dict = {}
     queryParams.forEach(query => {
         dict[query[0]] = query[1]
     })
+    console.log('DICT-->',dict)
     try{
         const jobsResponse = await prisma.jobApplication.findMany({
             where: {
