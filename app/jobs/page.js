@@ -10,6 +10,7 @@ import SkeletonLoader from '../../components/SkeletonLoader'
 
 const JobifyPage = () => {
   const searchParams = useSearchParams();
+  console.log('search params-->', searchParams)
   const jobsQuery = useJobs(searchParams);
   const queryClient = new QueryClient();
 

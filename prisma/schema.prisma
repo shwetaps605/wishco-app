@@ -17,23 +17,24 @@ companies Company[]
 }
 
 model Company {
-name String @id @unique
+id Int @id @unique @default(autoincrement())
+name String
 addedAt DateTime @default(now())
 url String
 jobs JobApplication[]
 userId String
 user User @relation(fields: [userId], references: [userId])
-
 }
 model JobApplication {
  id String @id @default(cuid())
  createdAt DateTime @default(now())
  updatedAt DateTime @updatedAt
  jobTitle String
+ companyId Int
  companyName String
  jobUrl String
  location String
  status String
  wishlisted Boolean @default(false)
- company Company @relation(fields: [companyName], references: [name])
+ company Company @relation(fields: [companyId], references: [id])
 }
