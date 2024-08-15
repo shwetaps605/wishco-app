@@ -5,33 +5,34 @@ import GridLayout from "../../layouts/GridLayout"
 import AddCompany from "../../components/AddCompany"
 import { useQuery } from "@tanstack/react-query"
 import { findUser } from "../../utils/actions"
+import SkeletonLoader from "../../components/SkeletonLoader"
 
-const companyMock = [
-    {
-        name: 'LinkedIn',
-        url: 'https://www.linkedin.com/company/leap-global-education/',
-        jobs: [],
-        addedAt: Date.now()
-    },
-    {
-        name: 'Google',
-        url: 'https://www.linkedin.com/company/google/',
-        jobs: [],
-        addedAt: Date.now()
-    },
-    {
-        name: 'Spinny',
-        url: 'https://www.linkedin.com/company/spinny/',
-        jobs: [],
-        addedAt: Date.now()
-    },
-    {
-        name: 'Meta',
-        url: 'https://www.linkedin.com/company/meta/',
-        jobs: [],
-        addedAt: Date.now()
-    }
-]
+// const companyMock = [
+//     {
+//         name: 'LinkedIn',
+//         url: 'https://www.linkedin.com/company/leap-global-education/',
+//         jobs: [],
+//         addedAt: Date.now()
+//     },
+//     {
+//         name: 'Google',
+//         url: 'https://www.linkedin.com/company/google/',
+//         jobs: [],
+//         addedAt: Date.now()
+//     },
+//     {
+//         name: 'Spinny',
+//         url: 'https://www.linkedin.com/company/spinny/',
+//         jobs: [],
+//         addedAt: Date.now()
+//     },
+//     {
+//         name: 'Meta',
+//         url: 'https://www.linkedin.com/company/meta/',
+//         jobs: [],
+//         addedAt: Date.now()
+//     }
+// ]
 
 const CompanyPage = () => {
 
@@ -43,15 +44,7 @@ const CompanyPage = () => {
     });
 
     let renderedContent;
-//     renderedContent = companyMock.map(company => {
-//         return <CompanyTile company={company} key={company.name}/>  
-// })
 
-    if(isPending) {
-        renderedContent = <div>
-            <h1 className="text-xl text-primary m-auto">Loading Companies For user</h1>
-        </div>
-    }
 
     if(isError|| data?.data?.companies !== undefined || data?.data?.companies?.length === 0 ) {
         renderedContent = <div>
@@ -71,10 +64,7 @@ const CompanyPage = () => {
     return(
         <div>
             <AddCompany user={userQuery.user}/>
-            <GridLayout>
-               {renderedContent}
-            </GridLayout>
-
+            {isPending ? <SkeletonLoader/> :  <GridLayout>{renderedContent}</GridLayout>}
         </div>
         
     )

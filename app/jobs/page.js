@@ -10,17 +10,19 @@ import SkeletonLoader from '../../components/SkeletonLoader'
 
 const JobifyPage = () => {
   const searchParams = useSearchParams();
-  console.log('search params-->', searchParams)
   const jobsQuery = useJobs(searchParams);
   const queryClient = new QueryClient();
 
   return(
     <HydrationBoundary state={dehydrate(queryClient)}>
-      <div>
-        <div className='flex justify-between w-full items-center'>
-        <FilterJobs/>
-        <AddNewJobButton companyName={''}/>
-        </div>
+      <div> 
+        {
+          jobsQuery?.data?.length > 0  &&  
+          <div className='flex justify-between w-full items-center'>
+            <FilterJobs/>
+            <AddNewJobButton companyName={''}/>
+          </div>
+        }
        
        {jobsQuery.isPending ? <SkeletonLoader/> : <JobsComponent jobs={jobsQuery.data}/>}
       </div>

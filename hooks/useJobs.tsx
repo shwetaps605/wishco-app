@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { filterJobs, getJobsBasedOnCompanies } from "../utils/actions";
+import { filterJobs } from "../utils/actions";
 
 
 export const useJobs = (params) => useQuery({
