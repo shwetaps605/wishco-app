@@ -110,11 +110,11 @@ const CompanyDetails = ({company}) => {
         <SkeletonLoader/>
         : 
         <div>
-            <div className='flex flex-row justify-between w-full'>
+            {/* <div className='flex flex-row justify-between w-full'>
                <h1 className='mb-7 text-lg opacity-40'>{filteredJobs.length > 0 ? 'added jobs' : 'no added jobs' }</h1>
                <AddNewJobButton companyName={company?.name}/>
-            </div>
-            <JobsComponent jobs={filteredJobs}/>
+            </div> */}
+            <JobsComponent jobs={filteredJobs} preSelectedCompany={company?.name}/>
         </div>
         }
     </div>

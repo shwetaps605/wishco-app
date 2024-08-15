@@ -1,8 +1,11 @@
 'use client'
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { addCompanyForUser } from "../utils/actions";
+import { useState } from "react";
 
 const AddCompany = ({user}) => {
+
+    const [urlInputvalue, setUrlInputValue] = useState("");
 
     const queryClient = useQueryClient();
 
@@ -33,7 +36,6 @@ const AddCompany = ({user}) => {
             }
             const payload = { userData, companyData}
             const response = await addCompanyForUser(payload);
-            console.log("RESPONSE", response);
             if(response.data != null) {
                 //Company was added succesfully for the user
                 //invalidate the cache for user
@@ -50,6 +52,7 @@ const AddCompany = ({user}) => {
         if(url.length > 0)
         {
             addCompanyQuery.mutate(url)
+            setUrlInputValue("");
         } 
         
     }
@@ -57,8 +60,10 @@ const AddCompany = ({user}) => {
     return(
         <form onSubmit={onSubmitCompany}>
             <input
+            onChange={(e) => setUrlInputValue(e.target.value)}
             required
             name="companyUrl"
+            value={urlInputvalue}
             className="input input-bordered w-full max-w-full bg-base-300" 
             type="text"
             placeholder="paste linkedIn url"/>

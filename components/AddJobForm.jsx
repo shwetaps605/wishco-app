@@ -1,18 +1,14 @@
 'use client'
-import React, { useEffect } from 'react'
+import React from 'react'
 import { addNewJob,redirectToJobsPage } from '../utils/actions'
 import toast from 'react-hot-toast'
-import { useFormStatus, useFormState } from 'react-dom'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
-// import { redirect } from 'next/navigation'
 import { useSearchParams } from 'next/navigation'
-import { useUser } from '@clerk/nextjs'
 
 const AddJobForm = () => {
 
   const companyParams = useSearchParams();
   const company = companyParams.get('company')
-
   const queryClient = useQueryClient();
 
   const { mutate, isPending } = useMutation({
@@ -20,16 +16,11 @@ const AddJobForm = () => {
     onSuccess: (response) => {
       if(response.message === 'success') {
             toast.success(response.message);
-            console.log("RESPONSE FROM SERVER ACTION", response)
-            redirectToJobsPage();
-
-            // invalidateQueries().then(()=>{
-            //   redirectToJobsPage();
-            // })
+            invalidateQueries().then(()=>{
+              redirectToJobsPage();
+            })
           } else {
             toast.error('Job could not be added')
-            console.log("RESPONSE FROM SERVER ACTION status:FAILED", response)
-
           }
     }
   })
@@ -92,8 +83,6 @@ const AddJobForm = () => {
               <option value="Offer">Offer</option>
               <option value="Rejected">Rejected</option>
             </select>
-
-            {/* <input type='text' name='jobTitle' className='join-item input input-bordered '/> */}
         </div>
 
         <button className='btn btn-secondary mt-10' type='submit' disabled={isPending}>

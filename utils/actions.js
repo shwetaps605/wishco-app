@@ -1,7 +1,6 @@
 'use server'
 import { redirect } from "next/navigation"
 import prisma from "./db"
-import { create } from "domain"
 
 export const generateChatResponse = async (chatMessage) => {
     await new Promise((resolve,reject) => setTimeout(resolve,1200))
@@ -35,36 +34,10 @@ export const findCompany = async companyName => {
 
 export const addNewJob = async (formData) => {
     const job = Object.fromEntries(formData.entries())
-    console.log("COMPANY NAME IS-->",job.company)
-
-
     const existingCompany = await findCompany(job.company);
     const companyId = existingCompany.data?.id;
 
-    console.log("EXISTING COMPANY-->", existingCompany)
     try {
-            // const updatingCompanyResponse = await prisma.company.updateMany({
-            //     where: {
-            //         name: {
-            //             startsWith: job.company
-            //         }
-            //     },
-            //     data: {
-            //         jobs: {
-            //             create: [
-            //                 {
-            //                     jobTitle: job.jobTitle,
-            //                     location: job.location,
-            //                     status: job.status.charAt(0).toUpperCase()+job.status.slice(1),
-            //                     jobUrl: job.jobUrl,
-            //                     wishlisted: false
-            //                 }
-            //             ]
-            //         }
-            //     }
-
-            // });
-
         const updatingCompanyResponse = await prisma.jobApplication.create({
             data: {
                 jobTitle: job.jobTitle,
@@ -74,8 +47,20 @@ export const addNewJob = async (formData) => {
                 jobUrl: job.jobUrl,
                 wishlisted: false,
                 company: {
-                    connect: {
-                        id: companyId
+                    connectOrCreate: {
+                        where: {
+                            id: companyId,
+                            name: job.company
+                        },
+                        create: {
+                            name: job.company,
+                            url: `https://www.linkedin.com/company/${job.company}/`,
+                            user: {
+                                connect: {
+                                    userId: 'user_2gGhfNmDBp8QMs7eZwTgCsA5C43'
+                                }
+                            }
+                        }
                     }
                 }
             },
@@ -158,12 +143,6 @@ export const getJobsBasedOnCompanies = async (name) => {
     }
 }
 
-// export const getAllJobs = async () => {
-//     try {
-//         const jobsResponse = await prisma.jobApplication.
-//     }
-// }
-
 export const filterJobs = async (queryParams) => {
     console.log('filter params->',queryParams)
     let dict = {}
@@ -227,8 +206,13 @@ export const addCompanyForUser = async payload => {
         const newUserResponse = await addNewUser(payload.userData)
         user = newUserResponse.data;
     }
-    console.log("USER DATA-->", user)
+    
+    let existingCompany = await findCompany(payload.companyData.name);
+    if(existingCompany.data !== null) {
+        return { message:'Company already exists!', data: existingCompany.data}
+    }
 
+    
     try {
         const updateUserResponse = await prisma.user.update({
             where: {
@@ -255,11 +239,9 @@ export const addCompanyForUser = async payload => {
                 }
             }
         })
-        console.log("USER UPDATED SUCCESSFULLY", updateUserResponse)
-        return { message:'User updated succesfully', data: updateUserResponse}
+        return { message:'Company added successfully!', data: updateUserResponse}
     }catch(e) {
-        console.log("USER UPDATE FAILED with error", e)
-        return { message: 'err', data: e}
+        return { message: 'Company could not be added', data: e.message}
     }
     
     

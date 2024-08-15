@@ -5,7 +5,7 @@ const AddNewJobButton = ({companyName}) => {
     return(
         <div>
             <Link href={`/jobs/new-job${getLink()}`}>
-            <button className='float-right btn btn-primary btn-outline btn-sm mr-5'>Add Job</button>
+            <button className='btn btn-primary btn-outline btn-sm mr-5'>Add Job</button>
         </Link>
         </div>
         
