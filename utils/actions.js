@@ -36,6 +36,7 @@ export const addNewJob = async (formData) => {
     const job = Object.fromEntries(formData.entries())
     const existingCompany = await findCompany(job.company);
     const companyId = existingCompany.data?.id;
+    console.log("COMPANY ID FOR",job.company," is ",companyId)
 
     try {
         const updatingCompanyResponse = await prisma.jobApplication.create({
