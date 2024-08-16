@@ -18,7 +18,7 @@ const CompanyDetails = ({company}) => {
   return (
     <>
     
-    <div className='grid grid-cols-[2fr,2fr] w-full gap-5'>
+    <div className='grid lg:grid-cols-[2fr,2fr] md:grid-cols-1 w-full gap-5'>
         <div className='bg-base-100 px-5 py-3 rounded-xl shadow-lg mt-3'>
             <div className='flex flex-row justify-between items-center'>
                 <div className='flex flex-row align-middle items-center mt-2'>
@@ -74,7 +74,7 @@ const CompanyDetails = ({company}) => {
             : <h2 className='text-md text-'>No Featured reviews.</h2> }
         </div>
         
-        <div className=' px-5 py-3 rounded-xl mt-3 grid grid-cols-[1fr,1fr,1fr] gap-2'> 
+        <div className=' px-5 py-3 rounded-xl mt-3 grid lg:grid-cols-[1fr,1fr,1fr] md:grid-cols-[2fr,2fr] gap-2'> 
             <div className='bg-base-300 w-[50] h-[50] p-3 rounded-xl'>
                     <h2 className='text-accent text-sm'>Work Life Balance rating</h2>
                     <p>{company?.workLifeBalanceRating}</p>
