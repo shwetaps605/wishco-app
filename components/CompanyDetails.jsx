@@ -8,6 +8,7 @@ var relativeTime = require('dayjs/plugin/relativeTime')
 dayjs.extend(relativeTime)
 import JobsComponent from './JobsComponent';
 import SkeletonLoader from './SkeletonLoader';
+import RatingComponent from "./RatingComponent";
 
 const CompanyDetails = ({company}) => {
 
@@ -38,13 +39,7 @@ const CompanyDetails = ({company}) => {
                         <p className='text-sm opacity-40'>{company.sectorName}</p>
                     </div>
                 </div>
-                <div className="rating">
-                    <input type="radio" name="rating-4" className="mask mask-star-2 bg-orange-400" />
-                    <input type="radio" name="rating-4" className="mask mask-star-2 bg-orange-400"  />
-                    <input type="radio" name="rating-4" className="mask mask-star-2 bg-orange-400" checked/>
-                    <input type="radio" name="rating-4" className="mask mask-star-2 bg-orange-400" />
-                    <input type="radio" name="rating-4" className="mask mask-star-2 bg-orange-400" />
-                </div>
+                <RatingComponent rating={company?.overallRating}/>
             </div>
             
             {company?.featuredReview ? 
