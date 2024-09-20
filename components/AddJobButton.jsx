@@ -1,7 +1,9 @@
+"use client"
 import Link from 'next/link';
 
 const AddNewJobButton = ({companyName}) => {
-    const getLink = () => companyName ? `?company=${companyName}` : ''
+    console.log("COMPANY NAME-->",companyName)
+    const getLink = () => companyName ? `?company=${companyName.toLowerCase()}` : ''
     return(
         <div>
             <Link href={`/jobs/new-job${getLink()}`}>

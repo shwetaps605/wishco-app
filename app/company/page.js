@@ -7,44 +7,16 @@ import { useQuery } from "@tanstack/react-query"
 import { findUser } from "../../utils/actions"
 import SkeletonLoader from "../../components/SkeletonLoader"
 
-// const companyMock = [
-//     {
-//         name: 'LinkedIn',
-//         url: 'https://www.linkedin.com/company/leap-global-education/',
-//         jobs: [],
-//         addedAt: Date.now()
-//     },
-//     {
-//         name: 'Google',
-//         url: 'https://www.linkedin.com/company/google/',
-//         jobs: [],
-//         addedAt: Date.now()
-//     },
-//     {
-//         name: 'Spinny',
-//         url: 'https://www.linkedin.com/company/spinny/',
-//         jobs: [],
-//         addedAt: Date.now()
-//     },
-//     {
-//         name: 'Meta',
-//         url: 'https://www.linkedin.com/company/meta/',
-//         jobs: [],
-//         addedAt: Date.now()
-//     }
-// ]
+import Head from "next/head"
 
 const CompanyPage = () => {
-
     const userQuery = useUser();
     const { data, isPending , isError} = useQuery({
         queryKey: ['user', userQuery.user?.id],
         queryFn: () => findUser(userQuery.user?.id),
         enabled: userQuery.isLoaded
     });
-
     let renderedContent;
-
 
     if(isError|| data?.data?.companies !== undefined || data?.data?.companies?.length === 0 ) {
         renderedContent = <div>
@@ -54,7 +26,6 @@ const CompanyPage = () => {
 
     if(data?.data?.companies?.length > 0 ) {
         const companies = data.data?.companies;
-        console.log("COMPANIES ADDED FOR USER:-->", companies)
         renderedContent = companies.map(company => {
                 return <CompanyTile company={company} key={company.name}/>
         })
@@ -62,10 +33,16 @@ const CompanyPage = () => {
 
 
     return(
-        <div>
-            <AddCompany user={userQuery.user}/>
-            {isPending ? <SkeletonLoader/> :  <GridLayout>{renderedContent}</GridLayout>}
-        </div>
+        <>
+            <Head>
+                <link rel='icon' href='/fav.png' />
+            </Head>
+            <div>
+                <AddCompany user={userQuery.user}/>
+                {isPending ? <SkeletonLoader/> :  <GridLayout>{renderedContent}</GridLayout>}
+            </div>
+        </>
+        
         
     )
 }

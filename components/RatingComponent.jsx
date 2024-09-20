@@ -52,18 +52,9 @@ const RatingComponent = ({rating}) => {
 
     
     return( 
-    <>
-
-      
         <div class="rating rating-md rating-half">
             {renderedStars.map(star => star)}
         </div>
-        <span>{rating}</span>
-
-
-    </>
-     
-
     );
 
 

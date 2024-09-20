@@ -18,29 +18,28 @@ const CompanyDetails = ({company}) => {
         
   return (
     <>
-    
-    <div className='grid lg:grid-cols-[2fr,2fr] md:grid-cols-1 w-full gap-5'>
-        <div className='bg-base-100 px-5 py-3 rounded-xl shadow-lg mt-3'>
-            <div className='flex flex-row justify-between items-center'>
-                <div className='flex flex-row align-middle items-center mt-2'>
-                    <Image 
-                        src={company?.squareLogo}
-                        height={30}
-                        width={30}
-                        className='w-30 h-30 rounded-full shadow-lg mr-2 object-scale-down'
-                        alt={company?.name}
-                    />
-                    <div>
-                        <p className='text-md'>
-                            <a href={`https://${company?.website}`} target="_blank" className='hover:cursor-pointer' rel="noopener noreferrer">
-                                {company?.name}
-                            </a>
-                        </p>
-                        <p className='text-sm opacity-40'>{company.sectorName}</p>
+        <div className='grid lg:grid-cols-[2fr,2fr] md:grid-cols-1 w-full gap-10 mt-5 '>
+            <div className='bg-base-100 px-5 py-5 rounded-xl shadow-lg sm:border'>
+                <div className='flex flex-row justify-between items-center gap-4'>
+                    <div className='flex flex-row align-middle items-center gap-4'>
+                        <Image 
+                            src={company?.squareLogo}
+                            height={30}
+                            width={30}
+                            className='w-30 h-30 rounded-full shadow-lg object-scale-down'
+                            alt={company?.name}
+                        />
+                        <div>
+                            <p className='sm:text-sm text-md lg:text-md'>
+                                <a href={`https://${company?.website}`} target="_blank" className='hover:cursor-pointer' rel="noopener noreferrer">
+                                    {company?.name}
+                                </a>
+                            </p>
+                            <p className='text-sm md:text-sm opacity-40'>{company.sectorName}</p>
+                        </div>
                     </div>
+                    <RatingComponent rating={company?.overallRating}/>
                 </div>
-                <RatingComponent rating={company?.overallRating}/>
-            </div>
             
             {company?.featuredReview ? 
             <div className='flex flex-col mt-5'>
@@ -59,18 +58,18 @@ const CompanyDetails = ({company}) => {
                             <a href={company?.featuredReview?.attributionURL} target="_blank" rel="noopener noreferrer"><LuExternalLink className='text-accent hover:cursor-pointer'/></a>
                         </div>
                     </div> 
-                    <div className="chat-bubble mt-2 bg-base-200">
-                        <p className='text-md text-info'>{company?.featuredReview?.headline}</p>
+                    <div className="chat-bubble mt-3 bg-base-200">
+                        <p className='text-md sm:text-sm text-info'>{company?.featuredReview?.headline}</p>
                         <span className='text-sm mr-2'>Pros: {company?.featuredReview?.pros}</span> 
                         <span className='text-sm'>Cons: {company?.featuredReview?.cons}</span> 
                     </div>
                 </div>
             </div>
-            : <h2 className='text-md text-'>No Featured reviews.</h2> }
+            : <h2 className='text-md'>No Featured reviews.</h2> }
         </div>
         
-        <div className=' px-5 py-3 rounded-xl mt-3 grid lg:grid-cols-[1fr,1fr,1fr] md:grid-cols-[2fr,2fr] gap-2'> 
-            <div className='bg-base-300 w-[50] h-[50] p-3 rounded-xl'>
+        <div className='grid lg:grid-cols-[1fr,1fr,1fr] md:grid-cols-[2fr,2fr] grid-cols-[2fr,2fr] gap-4 md:gap-2'> 
+            <div className='bg-base-300 w-[50] h-[50] p-3 rounded-md'>
                     <h2 className='text-accent text-sm'>Work Life Balance rating</h2>
                     <p>{company?.workLifeBalanceRating}</p>
             </div>
@@ -98,17 +97,19 @@ const CompanyDetails = ({company}) => {
         </div>
     </div>
 
-    <div className='mt-10'>
+    <div className='mt-10 min-h-40'>
        
         {
         jobsDataQuery.isPending ?
         <SkeletonLoader/>
         : 
-        <div>
-            {/* <div className='flex flex-row justify-between w-full'>
-               <h1 className='mb-7 text-lg opacity-40'>{filteredJobs.length > 0 ? 'added jobs' : 'no added jobs' }</h1>
-               <AddNewJobButton companyName={company?.name}/>
-            </div> */}
+        <div className=''>
+            {filteredJobs.length > 0 && 
+                <div className='flex flex-row justify-between w-full'>
+                    <h1 className='mb-7 text-lg opacity-40'>added jobs</h1>
+                    <AddNewJobButton companyName={company?.name}/>
+                </div>
+            }
             <JobsComponent jobs={filteredJobs} preSelectedCompany={company?.name}/>
         </div>
         }

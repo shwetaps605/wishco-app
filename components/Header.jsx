@@ -16,7 +16,7 @@ const navLinks = [
 const Header = () => {
     const pathname = usePathname();
     return(
-        <div className="flex flex-row justify-between items-center bg-base-300 w-full py-5 px-10 bg-opacity-85">
+        <div className="flex flex-row justify-between items-center bg-base-300 w-full py-5 px-6 md:px-10 sm:px-5 bg-opacity-85">
             <div>
                 <h1 className="text-accent font-medium text-2xl italic font-serif ">wishco</h1>
                 <h3 className="text-xs text-secondary text-center">
@@ -28,7 +28,7 @@ const Header = () => {
             <ul className="flex flex-row gap-5 ">
                 {navLinks.map(navlink => {
                     const isActive = pathname.includes(navlink.href);
-                    console.log("PATTHNAME-->", pathname.toString().slice(1,navlink.href.length), "NAV HREF-->",navlink.href.toString().slice(1,navlink.href.length))
+                    //console.log("PATTHNAME-->", pathname.toString().slice(1,navlink.href.length), "NAV HREF-->",navlink.href.toString().slice(1,navlink.href.length))
                     return (
                         <li className={`hover:underline underline-offset-8 ${isActive ? "text-accent" : "text-secondary"} text-lg`}>
                            <Link href={navlink.href} >{navlink.label}</Link>

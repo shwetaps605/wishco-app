@@ -14,17 +14,14 @@ const JobifyPage = () => {
   const queryClient = new QueryClient();
 
   return(
+
     <HydrationBoundary state={dehydrate(queryClient)}>
-      <div> 
         {
-          jobsQuery?.data?.length > 0  &&  
-          <div className='flex justify-between w-full items-center'>
-            <FilterJobs/>
-            <AddNewJobButton companyName={''}/>
-          </div>
+          jobsQuery?.data?.length > 0  &&  <FilterJobs/>
         }
-       
        {jobsQuery.isPending ? <SkeletonLoader/> : <JobsComponent jobs={jobsQuery.data}/>}
+      <div className='mt-10 flex justify-center md:absolute md:bottom-10 md:left-[45%]'>
+        <AddNewJobButton companyName={""}/>
       </div>
     </HydrationBoundary>
    

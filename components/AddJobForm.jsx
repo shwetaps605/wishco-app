@@ -8,9 +8,11 @@ import { useSearchParams } from 'next/navigation'
 const AddJobForm = () => {
 
   const companyParams = useSearchParams();
-  const company = companyParams.get('company')
+  let company = companyParams.get('company')
+  if(company) {
+    company = company[0].toUpperCase() + company.slice(1);
+  }
   const queryClient = useQueryClient();
-
   const { mutate, isPending } = useMutation({
     mutationFn: (formData) => addNewJob(formData),
     onSuccess: (response) => {
@@ -44,28 +46,28 @@ const AddJobForm = () => {
             Add a new job
         </h2>
         <div className='join w-full mt-10'>
-            <label htmlFor="jobTitle" className='bg-base-300 join-item  flex justify-center align-middle text-center items-center pl-2 w-[50%]'>
+            <label htmlFor="jobTitle" className='bg-base-300 join-item flex justify-center align-middle text-center items-center pl-2 w-[50%]'>
               <span className='text-sm mr-5'>Enter job title</span>
             </label>
             <input type='text' name='jobTitle' required className='join-item input input-bordered w-full  '/>
         </div>
 
         <div className='join w-full mt-5'>
-            <label htmlFor="company" className='bg-base-300 join-item  flex justify-center align-middle text-center items-center pl-2  w-[50%]'>
+            <label htmlFor="company" className='bg-base-300 join-item  flex justify-center align-middle text-center items-center pl-2 w-[50%]'>
               <span className='text-sm mr-5'>Company Name</span>
             </label>
             <input type='text' name='company' required className='join-item input input-bordered w-full' value={company ? company : null}/>
         </div>
 
         <div className='join w-full mt-5'>
-            <label htmlFor="jobUrl" className='bg-base-300 join-item  flex justify-center align-middle text-center items-center pl-2  w-[50%]'>
+            <label htmlFor="jobUrl" className='bg-base-300 join-item  flex justify-center align-middle text-center items-center pl-2 w-[50%]'>
               <span className='text-sm mr-5'>JD link?</span>
             </label>
             <input type='text' name='jobUrl' className='join-item input input-bordered w-full '/>
         </div>
 
         <div className='join w-full mt-5'>
-            <label htmlFor="location" className='bg-base-300 join-item  flex justify-center align-middle text-center items-center pl-2  w-[50%]'>
+            <label htmlFor="location" className='bg-base-300 join-item  flex justify-center align-middle text-center items-center pl-2 w-[50%]'>
               <span className='text-sm mr-5'>Location</span>
             </label>
             <input type='text' name='location' className='join-item input input-bordered w-full  '/>
