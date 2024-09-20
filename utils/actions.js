@@ -36,8 +36,6 @@ export const addNewJob = async (formData) => {
     const job = Object.fromEntries(formData.entries())
     const existingCompany = await findCompany(job.company);
     const companyId = existingCompany.data?.id;
-    console.log("COMPANY ID FOR",job.company," is ",companyId)
-
     try {
         const updatingCompanyResponse = await prisma.jobApplication.create({
             data: {
@@ -67,21 +65,12 @@ export const addNewJob = async (formData) => {
             },
             
         });
-
-        //const updatingCompanyResponse = await findCompany(job.company)
-
-
-        console.log("COMPANY UPDATED WITH JOB-->", updatingCompanyResponse)
         return { message: 'success',data: updatingCompanyResponse}
 
     }catch(err) {
-        console.log("SOMETHING FAILED--->",err)
         return { message: 'failed to add job',data: null, error:err}
     }
-    //return { message: 'success'}
-// } catch (error) {
-//     return { message: 'error'}
-// }
+  
 }
 
 export const deleteJob = async id => {
@@ -145,12 +134,10 @@ export const getJobsBasedOnCompanies = async (name) => {
 }
 
 export const filterJobs = async (queryParams) => {
-    console.log('filter params->',queryParams)
     let dict = {}
     queryParams.forEach(query => {
         dict[query[0]] = query[1]
     })
-    console.log('DICT-->',dict)
     try{
         const jobsResponse = await prisma.jobApplication.findMany({
             where: {
@@ -194,7 +181,6 @@ export const fetchCompanyDetails = async companyName => {
         const companyData = await response.json();
         return companyData.response?.employers[0];
     }catch(err) {
-        console.log("ERROR")
     }
     
 }
@@ -207,7 +193,6 @@ export const addCompanyForUser = async payload => {
         const newUserResponse = await addNewUser(payload.userData)
         user = newUserResponse.data;
     }
-    
     let existingCompany = await findCompany(payload.companyData.name);
     if(existingCompany.data !== null) {
         return { message:'Company already exists!', data: existingCompany.data}
@@ -249,7 +234,6 @@ export const addCompanyForUser = async payload => {
 }
 
 export const findUser = async userId => {
-    console.log('Getting Existing User')
     try {
         const response = await prisma.user.findUnique({
             where:{
@@ -262,12 +246,12 @@ export const findUser = async userId => {
         return { message: 'Companies loaded for user successfully', data: response}
     }
     catch(err){
+        console.log(err)
         return { message: 'Companies not loaded for user', data: null}
     }
 }
 
 export const addNewUser = async userPayload => {
-    console.log('Adding New User')
     try{
         const response = await prisma.user.create({
             data: {

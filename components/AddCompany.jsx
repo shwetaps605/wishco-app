@@ -16,7 +16,10 @@ const AddCompany = ({user}) => {
         if(companyName.includes('-')) {
             companyName = companyName.trim().split('-').join(' ')
             companyName = companyName[0].toUpperCase() + companyName.slice(1)
+        }else {
+            companyName = companyName[0].toUpperCase() + companyName.slice(1)
         }
+        
         return companyName;
     }
 
